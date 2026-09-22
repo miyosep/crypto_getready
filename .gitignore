@@ -15,3 +15,10 @@ cache/
 *.log
 .DS_Store
 .qa/
+
+# Local design references and reproducible verification exports.
+public/pkuba-logo.jpg
+public/quest-nft-previous.svg
+public/quest-nft-square-preview.svg
+verification/*.abi.json
+verification/*.standard-input.json

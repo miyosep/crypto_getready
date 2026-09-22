@@ -11,3 +11,7 @@ cache/
 .qa/
 *.log
 *.tsbuildinfo
+public/pkuba-logo.jpg
+public/quest-nft-previous.svg
+public/quest-nft-square-preview.svg
+verification/

@@ -3,16 +3,17 @@
 Verified on Sepolia on 2026-09-22.
 
 This is the **practice deployment**. For the next formal contract, repeat the
-[formal deployment and verification procedure](FORMAL-DEPLOYMENT.md). These JSON
-files record this practice build; regenerate them from the actual formal build.
+[formal deployment and verification procedure](FORMAL-DEPLOYMENT.md). Generated
+JSON exports are kept locally and excluded from Git; regenerate them from the
+actual deployment build. Verified practice sources and ABI are public on Etherscan.
 
 - Contract: `0x6844bcccd7959601416f5032600cdd5cb122ca85`
 - Target: `contracts/src/PKUBAGetReady.sol:PKUBAGetReady`
 - Compiler: `v0.8.30+commit.73712a01`
 - Optimizer: enabled, 200 runs; EVM: Cancun
 - Constructor arguments: none; license: MIT
-- Input: `PKUBAGetReady.standard-input.json`
-- ABI: `PKUBAGetReady.abi.json`
+- Local input export: `PKUBAGetReady.standard-input.json`
+- Local ABI export: `PKUBAGetReady.abi.json`
 
 The local runtime bytecode exactly matched the deployed runtime before submission.
 Etherscan confirmed matching bytecode and ABI. Its transaction Logs view now
