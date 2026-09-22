@@ -1,0 +1,49 @@
+# Get Ready NFT edition
+
+The new `PKUBAGetReady` contract preserves `leaveMessage(string)` and `MessageLeft`.
+The first valid message from an address also mints one ERC-721 to that address in the
+same transaction. Later messages remain allowed. Transferring a souvenir does not
+reset mint eligibility. Each ticket displays the original recipient's shortened
+address and token ID (padded to at least four digits). Transfers do not alter its issued-to identity.
+
+The image and JSON metadata are onchain data URIs. `public/quest-nft.svg` is the
+website sample with address `0x22c2...06c6` and number `0001`; the integration test
+checks `QuestArtwork` against that template with the actual recipient substituted.
+The success view reads each token's image from its onchain metadata.
+There is no claim transaction, owner, administrative mint, upgrade, or mint fee.
+The first message costs more Sepolia gas than a repeat message.
+
+## Deploy using MetaMask
+
+1. Run `npm ci`, then `forge build`.
+2. Run `node scripts/deploy-with-wallet.mjs`.
+3. Open http://127.0.0.1:3001 in the browser with MetaMask and approve deployment.
+4. The helper checks Sepolia, the creation transaction, two confirmations, and the
+   deployed runtime bytecode. Only then does it update `.env.local` with the new
+   address, deployment block, and `NEXT_PUBLIC_QUEST_NFT_ENABLED=true`.
+5. Reload the site. Restart `npm run dev` if its environment did not reload.
+   Production hosting requires these same public environment variables and a rebuild.
+
+The previous configuration is kept in `.env.local.before-nft`. Existing messages on
+the old contract remain onchain. They do not automatically mint NFTs: participants
+must leave a message on the new contract. Never redeploy for each participant.
+
+CLI alternative: use `contracts/script/DeployNFT.s.sol:DeployNFT` with a locally
+configured Forge signer. Never place private keys in NEXT_PUBLIC variables.
+
+## Verification
+
+`forge test`, `npm test`, and `npm run test:integration` cover minting, repeat
+messages, transfer eligibility, smart-account authors, invalid-message rejection,
+ERC-721 ownership, metadata, and matching the website artwork.
+
+`npm run verify-quest -- --tx 0x...` identifies authors from the configured contract's
+MessageLeft logs. It supports delegated calls whose outer To or From differs from
+the message author. A hash proves that an address participated, not that the person
+submitting the hash owns that address.
+
+The NFT is transferable. `tokenOf` records the original recipient permanently;
+`ownerOf` gives the current holder. The success view distinguishes those states.
+Mint uses `_mint` without a receiver callback so the author can be a smart account
+without IERC721Receiver. There is no arbitrary recipient argument. Wallet gallery
+auto-discovery is not required: the site shows the souvenir and an explorer link.
