@@ -6,7 +6,7 @@ import { NetworkSettings } from "@/components/network-settings";
 import { faucets, settings, nftEnabled } from "@/lib/config";
 
 export const metadata: Metadata = {
-  title: "入门指南 · PKUBA Get Ready",
+  title: "Guide · PKUBA Get Ready",
   description:
     "从安装 MetaMask、设置 Sepolia、领取测试币，到提交留言和查询交易的完整入门指南。",
 };
