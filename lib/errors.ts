@@ -9,6 +9,11 @@ export function friendlyError(error: unknown): string {
   const message = error instanceof Error ? error.message.toLowerCase() : "";
   const cause = error instanceof BaseError ? error.walk() : error;
   if (
+    (typeof cause === "object" && cause !== null && "code" in cause && cause.code === -32002) ||
+    /already pending|request.*pending|-32002|resource.*unavailable/.test(message)
+  )
+    return "MetaMask 中已有待处理的请求。请点击浏览器工具栏中的 MetaMask 图标，完成或取消该请求后再试。";
+  if (
     cause instanceof UserRejectedRequestError ||
     /user rejected|user denied|4001/.test(message)
   )
@@ -23,6 +28,6 @@ export function friendlyError(error: unknown): string {
   if (/chain|network mismatch/.test(message))
     return "当前网络不正确，请在钱包中切换到 Ethereum Sepolia。";
   if (/provider.*not found|connector.*not found/.test(message))
-    return "没有找到 MetaMask。请安装扩展，或使用 MetaMask 手机 App 内的浏览器打开本站。";
+    return "当前页面无法访问 MetaMask。请检查当前浏览器配置文件中的扩展和本站访问权限，然后刷新重试。";
   return "暂时无法连接测试网络。请检查网络后重试；若已经获得交易哈希，请先在 Etherscan 查看，避免重复提交。";
 }

@@ -7,7 +7,7 @@ export function makeWagmiConfig() {
   return createConfig({
     chains: [sepolia],
     connectors: [injected({ target: "metaMask" })],
-    multiInjectedProviderDiscovery: false,
+    multiInjectedProviderDiscovery: true,
     ssr: true,
     transports: {
       [sepolia.id]: http(

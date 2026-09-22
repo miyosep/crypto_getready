@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   useBalance,
   useConnect,
   useConnection,
-  useConnectors,
+  useConfig,
   useDisconnect,
   useSwitchChain,
 } from "wagmi";
@@ -14,10 +14,11 @@ import { formatEther, parseEther } from "viem";
 import { Check, LoaderCircle, Wallet } from "lucide-react";
 import { shortAddress } from "@/lib/contract";
 import { friendlyError } from "@/lib/errors";
+import { findMetaMaskConnector } from "@/lib/wallet-discovery";
 
 export function WalletPanel({ locked }: { locked: boolean }) {
   const { address, chainId, isConnected, isReconnecting } = useConnection();
-  const connectors = useConnectors();
+  const config = useConfig();
   const connect = useConnect();
   const disconnect = useDisconnect();
   const switchChain = useSwitchChain();
@@ -27,19 +28,31 @@ export function WalletPanel({ locked }: { locked: boolean }) {
     query: { enabled: isConnected, refetchInterval: 15000 },
   });
   const [missing, setMissing] = useState(false);
+  const [checking, setChecking] = useState(false);
+  const [connectionError, setConnectionError] = useState<string>();
+  const connecting = useRef(false);
   const wrongNetwork = isConnected && chainId !== sepolia.id;
   const lowBalance = balance.data && balance.data.value < parseEther("0.0001");
   async function connectWallet() {
+    if (connecting.current) return;
+    connecting.current = true;
+    setChecking(true);
+    setMissing(false);
+    setConnectionError(undefined);
+    connect.reset();
     try {
-      const connector = connectors[0];
-      if (!connector || !(await connector.getProvider())) {
+      const connector = await findMetaMaskConnector(() => config.connectors);
+      if (!connector) {
         setMissing(true);
         return;
       }
-      setMissing(false);
-      connect.mutate({ connector });
-    } catch {
-      setMissing(true);
+      setChecking(false);
+      await connect.mutateAsync({ connector });
+    } catch (error) {
+      setConnectionError(friendlyError(error));
+    } finally {
+      setChecking(false);
+      connecting.current = false;
     }
   }
   return (
@@ -72,14 +85,16 @@ export function WalletPanel({ locked }: { locked: boolean }) {
           <button
             className="button small"
             onClick={connectWallet}
-            disabled={connect.isPending || isReconnecting}
+            disabled={checking || connect.isPending || isReconnecting}
           >
-            {connect.isPending || isReconnecting ? (
+            {checking || connect.isPending || isReconnecting ? (
               <LoaderCircle className="spin" size={16} />
             ) : (
               <Wallet size={16} />
             )}
-            {connect.isPending
+            {checking
+              ? "正在查找 MetaMask…"
+              : connect.isPending
               ? "请在 MetaMask 中连接"
               : isReconnecting
                 ? "恢复连接中"
@@ -116,7 +131,9 @@ export function WalletPanel({ locked }: { locked: boolean }) {
       )}
       {missing && (
         <p className="notice">
-          没有找到 MetaMask。请先
+          当前页面未检测到 MetaMask。如果已安装，请确认当前浏览器配置文件已启用扩展，
+          并允许 MetaMask 访问本站，然后刷新重试。请使用普通窗口；InPrivate / 无痕窗口需要另外允许扩展运行。
+          尚未安装？{" "}
           <a
             href="https://metamask.io/download/"
             target="_blank"
@@ -124,12 +141,11 @@ export function WalletPanel({ locked }: { locked: boolean }) {
           >
             安装 MetaMask ↗
           </a>
-          ，或在 MetaMask 手机 App 内的浏览器打开本站。
         </p>
       )}
-      {(connect.error || switchChain.error) && (
+      {(connectionError || switchChain.error) && (
         <p className="notice error" role="alert">
-          {friendlyError(connect.error || switchChain.error)}
+          {connectionError || friendlyError(switchChain.error)}
         </p>
       )}
       {isConnected && balance.isError && (
