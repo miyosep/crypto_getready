@@ -162,7 +162,7 @@ export default function GuidePage() {
               <p>
                 RPC URL
                 是钱包连接区块链节点的入口，不是收款地址。上面提供的是公共节点；如果连接不稳定，可以在现有
-                Sepolia 网络的 Edit（编辑）设置中更换 RPC。
+                Sepolia 网络的 Edit 设置中更换 RPC。
               </p>
               <p className="guide-reference">
                 界面位置可对照{" "}
@@ -238,7 +238,7 @@ export default function GuidePage() {
                 </li>
                 <li>
                   输入一条留言，例如 <code>Hello PKUBA!</code> 或{" "}
-                  <code>我想学习DeFi。</code>。也可以写你感兴趣的方向。最多 280
+                  <code>我想学习DeFi</code>, 也可以写你感兴趣的方向。最多 280
                   字节，中文通常占 3 字节，输入框下方会显示计数。
                 </li>
                 <li>
