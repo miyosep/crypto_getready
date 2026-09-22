@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="1100" viewBox="-150 -50 1100 1100">
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
   <defs>
     <clipPath id="ticket"><path d="M44 24H756Q776 24 776 44V778A22 22 0 0 0 776 822V956Q776 976 756 976H44Q24 976 24 956V822A22 22 0 0 0 24 778V44Q24 24 44 24Z"/></clipPath>
     <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="12" cy="12" r=".8" fill="#a6192e" opacity=".08"/></pattern>
@@ -12,8 +12,8 @@
   <path d="M40 764V44H760V764" fill="none" stroke="#a6192e" stroke-width=".5"/>
   <path d="M64 182H736" stroke="#a6192e" stroke-width=".7"/>
   <g fill="#a6192e" font-family="Segoe UI, Arial, sans-serif" text-anchor="middle">
-    <text x="400" y="107" font-size="36" font-weight="500" letter-spacing=".4">PKU BLOCKCHAIN</text>
-    <text x="400" y="150" font-size="22" letter-spacing=".2" opacity=".78">Fall 2026 / Get Ready Quest</text>
+    <text x="400" y="107" font-size="26" font-weight="500" letter-spacing=".4">PKU BLOCKCHAIN</text>
+    <text x="400" y="145" font-size="15" letter-spacing=".2" opacity=".78">Fall 2026 / Get Ready Quest</text>
   </g>
   <g fill="#a6192e"><path d="M64 177L69 182L64 187L59 182Z M736 177L741 182L736 187L731 182Z"/></g>
   <circle cx="400" cy="418" r="204" fill="url(#halo)"/>
@@ -43,6 +43,10 @@
     <path d="M-37-148V-20L-145 44 M37-148V-20L145 44 M-37-82L-146-16 M37-82L146-16 M-127 103L0 27L127 103 M0 27V106 M-73 138L0 94L73 138"/>
     <g fill="#a6192e" stroke="none"><circle cx="-37" cy="-82" r="17"/><circle cx="37" cy="-82" r="17"/><circle cx="-37" cy="-20" r="17"/><circle cx="37" cy="-20" r="17"/><circle cy="27" r="17"/><circle cy="94" r="17"/></g>
   </g>
+  <g fill="#a6192e" font-family="Segoe UI, Arial, sans-serif" font-size="13" letter-spacing=".3" text-anchor="middle" opacity=".75">
+    <text transform="translate(89 418) rotate(-90)">General admission</text>
+    <text transform="translate(711 418) rotate(90)">PKUBA Tech</text>
+  </g>
   <g fill="#a6192e" text-anchor="middle">
     <text x="400" y="728" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="78" font-weight="500" letter-spacing="-3">You're in</text>
   </g>
@@ -51,10 +55,10 @@
   <path d="M48 849H752V952H48Z" stroke="#faf8f5" stroke-width=".5" fill="none" opacity=".22"/>
   <path d="M574 872V931" stroke="#faf8f5" stroke-width=".5" opacity=".25"/>
   <g fill="#faf8f5" font-family="Segoe UI, Arial, sans-serif">
-    <text x="80" y="884" font-size="20" letter-spacing=".2" opacity=".85">Issued to</text>
-    <text x="80" y="928" font-size="36" font-weight="400" letter-spacing=".2">0x22c2...06c6</text>
-    <text x="720" y="884" text-anchor="end" font-size="20" letter-spacing=".2" opacity=".85">No.</text>
-    <text x="720" y="928" text-anchor="end" font-size="36" font-weight="400" letter-spacing=".8">0001</text>
+    <text x="80" y="884" font-size="14" letter-spacing=".2" opacity=".75">Issued to</text>
+    <text x="80" y="923" font-size="28" font-weight="400" letter-spacing=".2">0x22c2...06c6</text>
+    <text x="720" y="884" text-anchor="end" font-size="14" letter-spacing=".2" opacity=".75">No.</text>
+    <text x="720" y="923" text-anchor="end" font-size="28" font-weight="400" letter-spacing=".8">0001</text>
   </g>
   </g>
 </svg>

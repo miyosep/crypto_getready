@@ -1,5 +1,13 @@
 # PKUBA Onchain Guestbook · Get Ready
 
+## Current NFT practice release
+
+The current release includes the Get Ready NFT and a verified Sepolia practice
+contract. For hosting this version, use [deployment/README.md](deployment/README.md)
+and its public practice configuration. For the NFT contract and future formal
+release, use [NFT-DEPLOYMENT.md](NFT-DEPLOYMENT.md). The original guestbook-only
+contract instructions below remain as historical implementation documentation.
+
 北京大学区块链协会技术部 · **2026 Fall Get Ready Quest**。
 
 学生界面名称为 **PKUBA Get Ready**。主页面保留提交任务的操作；完整的中文入门指南位于 `/guide`，涵盖钱包安装、Sepolia 自动选择与手动 RPC 设置、测试币领取、留言交易、Etherscan 查询、任务提交和常见问题。首页的“入门指南”在新标签打开，避免打断当前交易；手机端也可直接访问。手动网络参数附有复制按钮。

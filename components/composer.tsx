@@ -286,13 +286,13 @@ export function Composer() {
             >
               在 Etherscan 查看 <ExternalLink size={14} />
             </a>
-            {receipt.data && (
+            {receipt.data && !succeeded && (
               <button type="button" className="text-button" onClick={reset}>
-                {succeeded ? "再写一条" : "重新编辑留言"}
+                重新编辑留言
               </button>
             )}
           </div>
-          {succeeded && <CompletionGuide hash={hash} />}
+          {succeeded && <CompletionGuide />}
         </div>
       )}
     </section>

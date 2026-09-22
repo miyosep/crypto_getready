@@ -43,6 +43,9 @@ export default function GuidePage() {
             这次热身任务是在 <strong>Ethereum Sepolia 测试网</strong>
             上提交一条留言，最后记录<strong>交易哈希</strong>。
           </p>
+          <p>
+            如果你已经有链上交互经验，这项任务应该很快就能完成。如果是第一次尝试，也不用担心，跟着下面的步骤，从创建钱包开始，一步步完成你的第一笔链上交易。
+          </p>
         </header>
         <div className="guide-layout">
           <nav className="guide-toc" aria-label="指南目录">
@@ -110,7 +113,7 @@ export default function GuidePage() {
               </p>
               <h3>助记词、私钥和地址有什么区别？</h3>
               <p>
-                地址可以告诉别人，用来接收测试币和查询交易。助记词和私钥则能控制账户，不能分享。钱包密码用于解锁本机钱包，也不要交给别人。
+                地址可以告诉别人，用来接收测试币和查询交易。助记词和私钥则能控制账户，不能分享。钱包密码用于解锁本机钱包。
               </p>
             </section>
 
@@ -178,15 +181,6 @@ export default function GuidePage() {
                 >
                   手动添加与修改 RPC 说明 ↗
                 </a>
-                。节点由{" "}
-                <a
-                  href="https://www.publicnode.com/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  PublicNode ↗
-                </a>{" "}
-                提供。
               </p>
             </section>
 
@@ -195,7 +189,7 @@ export default function GuidePage() {
               <h2>领取Sepolia ETH</h2>
               <p>
                 提交留言需要支付 Gas，也就是网络执行交易的手续费。这里使用的是
-                Sepolia ETH，<strong>没有真实货币价值，不需要购买</strong>
+                Sepolia ETH，没有真实货币价值，不需要购买
                 。发放测试币的网站通常叫Faucet。
               </p>
               <ol>
@@ -209,7 +203,7 @@ export default function GuidePage() {
                 </li>
                 <li>
                   等待发放完成，回到 MetaMask 查看 Sepolia
-                  余额。若暂时没有变化，稍后刷新。
+                  余额。
                 </li>
               </ol>
               <p>
@@ -272,13 +266,13 @@ export default function GuidePage() {
                 </p>
               )}
               <p>
-                留言会以公开的event log保存，无法在本网站撤回。不要写学号、手机号、或其他隐私。即使不填写个人资料，留言也会与钱包地址关联。
+                留言会以公开的event log保存，无法在本网站撤回。不要写姓名、学号或其他隐私。
               </p>
             </section>
 
             <section id="receipt">
               <div className="chapter-label">05 / ETHERSCAN</div>
-              <h2>查看交易，找到 Tx Hash</h2>
+              <h2>查看交易和留言</h2>
               <p>
                 交易哈希（Transaction Hash / Tx
                 Hash）是这笔交易的唯一编号，通常是 <code>0x</code> 加 64
@@ -291,12 +285,8 @@ export default function GuidePage() {
                   Sepolia 区块浏览器中的这笔交易。
                 </li>
                 <li>
-                  确认 <strong>Status</strong> 为 <strong>Success</strong>
-                  。如果还显示 Pending，稍后再刷新。
-                </li>
-                <li>
                   找到 <strong>Transaction Hash</strong>
-                  ，点击旁边的复制按钮复制完整哈希。不要只提交页面上缩写后的前后几位。
+                  ，点击旁边的复制按钮复制完整哈希。
                 </li>
                 <li>
                   <strong>Block</strong>{" "}
@@ -304,14 +294,26 @@ export default function GuidePage() {
                   是实际支付的手续费。
                 </li>
               </ol>
+              <h3>在 Logs 里读到自己的留言</h3>
               <p>
-                使用 MetaMask 智能账户时，交易可能经过 DelegationManager，
-                所以 <strong>To</strong> 不一定是留言合约地址，
-                也可能看到 <code>RedeemedDelegation</code>，这是钱包的执行记录。
+                留言合约已在 Etherscan 完成源码验证，留言会直接显示为文字，中文也可以正常阅读。
               </p>
+              <ol>
+                <li>
+                  在交易页面点击 <strong>Logs</strong> 标签，找到名为{" "}
+                  <strong>MessageLeft</strong> 的事件。
+                </li>
+                <li>
+                  确认这条事件的 <strong>Address</strong> 是下方的本次任务合约地址。
+                </li>
+                <li>
+                  查看 <strong>sender</strong>，这是发表留言的钱包地址；
+                  <strong>content</strong> 就是你写下的留言。
+                  <strong>timestamp</strong> 是留言所在区块的时间戳。
+                </li>
+              </ol>
               <p>
-                查看留言：打开 <strong>Logs</strong>，找到 <strong>Address</strong>{" "}
-                为本次留言contract的logs：
+                本次任务合约地址：{" "}
                 <a
                   href={`https://sepolia.etherscan.io/address/${settings.address}`}
                   target="_blank"
@@ -319,17 +321,15 @@ export default function GuidePage() {
                 >
                   <code>{settings.address}</code>
                 </a>
-                在 <strong>Data</strong> 中从第 4 行开始，
-                点击左侧 <strong>Hex ▾ → Text</strong> 查看留言。较长的留言会分成多行。
               </p>
+              {nftEnabled && <p>首次留言成功后，合约会在同一笔交易中向你的钱包发放一枚 Get Ready 纪念 NFT。无需再次签名或手动领取，在metamask NFT section可以看到NFT。</p>}
             </section>
 
             <section id="submit">
-              {nftEnabled && <p>首次留言成功后，合约会在同一笔交易中向你的钱包发放一枚 Get Ready 纪念 NFT。无需再次签名或手动领取，完成页面会显示图片。提交任务时仍只需交易哈希。</p>}
               <div className="chapter-label">06 / SUBMISSION</div>
-              <h2>记录结果，提交任务</h2>
+              <h2>提交任务</h2>
               <p>
-                在招新问卷提交这笔交易的完整交易哈希。
+                在招新问卷里提交这笔交易的交易哈希。
               </p>
              
               <p>

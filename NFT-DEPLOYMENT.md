@@ -1,5 +1,13 @@
 # Get Ready NFT edition
 
+## Formal deployment handoff
+
+The currently configured Sepolia contract is a **practice contract**, not the
+formal quest deployment. For the formal release, follow
+[정식 배포 및 Etherscan 검증 절차](verification/FORMAL-DEPLOYMENT.md).
+Public Etherscan source verification and checking decoded Chinese `MessageLeft`
+content are part of completion for the new deployment; do not stop at deployment.
+
 The new `PKUBAGetReady` contract preserves `leaveMessage(string)` and `MessageLeft`.
 The first valid message from an address also mints one ERC-721 to that address in the
 same transaction. Later messages remain allowed. Transferring a souvenir does not
@@ -10,6 +18,10 @@ The image and JSON metadata are onchain data URIs. `public/quest-nft.svg` is the
 website sample with address `0x22c2...06c6` and number `0001`; the integration test
 checks `QuestArtwork` against that template with the actual recipient substituted.
 The success view reads each token's image from its onchain metadata.
+The artwork uses a 1100 × 1100 square canvas with viewBox `-150 -50 1100 1100`.
+The original 800 × 1000 ticket remains unchanged inside it, with extra margins
+for wallet galleries that crop to a square. Previously deployed artwork is immutable;
+this format requires a new deployment and does not change existing NFTs.
 There is no claim transaction, owner, administrative mint, upgrade, or mint fee.
 The first message costs more Sepolia gas than a repeat message.
 

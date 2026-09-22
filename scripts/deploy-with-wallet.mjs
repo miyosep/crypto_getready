@@ -17,7 +17,7 @@ const origin = 'http://127.0.0.1:3001';
 
 const html = `<!doctype html><html lang="ko"><meta charset="utf-8"><title>Get Ready · Sepolia 배포</title>
 <style>body{font:17px/1.7 system-ui;max-width:720px;margin:80px auto;padding:24px;color:#27272a}button{background:#a6192e;color:white;border:0;border-radius:8px;padding:14px 24px;font:inherit;cursor:pointer}button:disabled{opacity:.5}pre{white-space:pre-wrap;overflow-wrap:anywhere}a{color:#a6192e}</style>
-<h1>Get Ready · NFT 계약 배포</h1><img src="/artwork.svg" alt="Get Ready NFT" width="240" height="300"><p>첫留言과 함께 기념 NFT를 지갑당 한 개 발행하는 새 계약을 Ethereum Sepolia에 배포합니다. 실제 ETH 전송 금액은 0이며, Sepolia ETH로 가스비만 지불합니다.</p>
+<h1>Get Ready · NFT 계약 배포</h1><img src="/artwork.svg" alt="Get Ready NFT" width="300" height="300"><p>첫留言과 함께 기념 NFT를 지갑당 한 개 발행하는 새 계약을 Ethereum Sepolia에 배포합니다. 실제 ETH 전송 금액은 0이며, Sepolia ETH로 가스비만 지불합니다.</p>
 <p>승인 후 배포가 확인되면 사이트의 계약 설정을 자동으로 저장합니다.</p>
 <button id="deploy">MetaMask로 배포하기</button><pre id="status">MetaMask가 설치된 PC 브라우저에서 열어 주세요.</pre>
 <script>
@@ -77,7 +77,11 @@ const server = createServer(async (req, res) => {
     if (code?.toLowerCase() !== artifact.deployedBytecode.object.toLowerCase()) throw Error('Deployed bytecode mismatch');
     const path = root + '.env.local';
     let env = existsSync(path) ? readFileSync(path, 'utf8') : '';
-    // Keep a recovery copy before switching away from the original contract.
+    // Keep the original backup and a separate recovery copy for each deployment.
+    if (env) {
+      const backup = root + ".env.local.before-deploy-" + hash;
+      if (!existsSync(backup)) writeFileSync(backup, env);
+    }
     if (env && !existsSync(root + '.env.local.before-nft')) writeFileSync(root + '.env.local.before-nft', env);
     const values = { NEXT_PUBLIC_GUESTBOOK_CONTRACT_ADDRESS: receipt.contractAddress, NEXT_PUBLIC_DEPLOYMENT_BLOCK: receipt.blockNumber.toString(), NEXT_PUBLIC_SEPOLIA_RPC_URL: rpc, NEXT_PUBLIC_QUEST_NFT_ENABLED: 'true' };
     for (const [key, value] of Object.entries(values)) {

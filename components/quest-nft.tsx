@@ -51,7 +51,7 @@ export function QuestNft({ sender }: { sender: Address }) {
   const held = isAddressEqual(owner.data, sender);
   return (
     <div className="quest-nft">
-      <Image src={image} alt={`PKUBA Get Ready #${token.data} 纪念 NFT`} width={160} height={200} unoptimized />
+      <Image src={image} alt={`PKUBA Get Ready #${token.data} 纪念 NFT`} width={160} height={160} style={{ objectFit: "contain" }} unoptimized />
       <div>
         <h3>{held ? "你的 Get Ready 纪念 NFT" : "你已领取过纪念 NFT"}</h3>
         <p>PKUBA Get Ready #{token.data.toString()}</p>
