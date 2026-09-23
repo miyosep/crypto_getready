@@ -6,6 +6,7 @@ import {
   createPublicClient,
   createWalletClient,
   http,
+  parseEther,
   type Abi,
   type Hex,
 } from "viem";
@@ -26,7 +27,7 @@ const wallet = createWalletClient({
   transport: http(rpc, { retryCount: 0 }),
 });
 
-async function runVerifier(address: string, hash: string) {
+async function runVerifier(address: string, hash: string, transferHash?: string) {
   return new Promise<{ code: number | null; output: string }>(
     (resolve, reject) => {
       const child = spawn(
@@ -34,8 +35,9 @@ async function runVerifier(address: string, hash: string) {
         [
           "node_modules/tsx/dist/cli.mjs",
           "scripts/verify-quest.ts",
-          "--tx",
+          "--message-tx",
           hash,
+          ...(transferHash ? ["--transfer-tx", transferHash] : []),
         ],
         {
           windowsHide: true,
@@ -118,6 +120,8 @@ async function main() {
     });
     assert.ok(deployed.contractAddress);
     const address = deployed.contractAddress;
+    const transferHash = await wallet.sendTransaction({ account, to: address, value: parseEther("0.001") });
+    await client.waitForTransactionReceipt({ hash: transferHash });
     const content = "你好 PKUBA! 我想学习 ZK。";
     const { request } = await client.simulateContract({
       account,
@@ -159,19 +163,41 @@ async function main() {
         args: [""],
       }),
     );
-    const verified = await runVerifier(address, hash);
+    const verified = await runVerifier(address, hash, transferHash);
     assert.equal(verified.code, 0, verified.output);
-    const transferHash = await wallet.sendTransaction({
+    assert.match(verified.output, /transfer \+ message/);
+    const missingTransfer = await runVerifier(address, hash);
+    assert.equal(missingTransfer.code, 1);
+    assert.match(missingTransfer.output, /--transfer-tx/);
+    const reusedHash = await runVerifier(address, hash, hash);
+    assert.equal(reusedHash.code, 1);
+    assert.match(reusedHash.output, /distinct/);
+    const wrongRecipient = await wallet.sendTransaction({
       account,
       to: secondAccount,
-      value: 1n,
+      value: parseEther("0.001"),
     });
-    await client.waitForTransactionReceipt({ hash: transferHash });
-    const transfer = await runVerifier(address, transferHash);
+    await client.waitForTransactionReceipt({ hash: wrongRecipient });
+    const transfer = await runVerifier(address, hash, wrongRecipient);
     assert.equal(transfer.code, 1, transfer.output);
-    assert.match(transfer.output, /MessageLeft/);
+    assert.match(transfer.output, /directly to the configured contract/);
+    const wrongAmount = await wallet.sendTransaction({ account, to: address, value: 1n });
+    await client.waitForTransactionReceipt({ hash: wrongAmount });
+    const amountResult = await runVerifier(address, hash, wrongAmount);
+    assert.equal(amountResult.code, 1);
+    assert.match(amountResult.output, /exactly 0.001/);
+    const otherMessage = await wallet.writeContract({ account: secondAccount, address, abi: guestbookAbi, functionName: "leaveMessage", args: ["Different author"] });
+    await client.waitForTransactionReceipt({ hash: otherMessage });
+    const mismatched = await runVerifier(address, otherMessage, transferHash);
+    assert.equal(mismatched.code, 1);
+    assert.match(mismatched.output, /MessageLeft/);
+    const lateTransfer = await wallet.sendTransaction({ account, to: address, value: parseEther("0.001") });
+    await client.waitForTransactionReceipt({ hash: lateTransfer });
+    const late = await runVerifier(address, hash, lateTransfer);
+    assert.equal(late.code, 1);
+    assert.match(late.output, /before the message/);
     console.log(
-      "✓ Local Anvil: deployment, Chinese message, repeat submission, receipts, log ordering, empty-message revert, tx-only organizer verification, and ordinary-transfer rejection.",
+      "✓ Local Anvil: deployment, NFT artwork, messages, logs, two-transaction verification; missing/duplicate hashes, wrong recipient/amount/author/order rejected.",
     );
   } finally {
     anvil?.kill();

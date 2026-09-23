@@ -18,7 +18,7 @@ contract instructions below remain as historical implementation documentation.
 
 ## 快速开始
 
-需要 Node.js **22+**、npm。首次启动可以不配置合约：页面可正常浏览、连接钱包；写入和日志查询会明确提示等待组织者配置，不展示伪造数据。
+需要 Node.js **22.12+**、npm（组件测试工具要求此版本）。首次启动可以不配置合约：页面可正常浏览、连接钱包；写入和日志查询会明确提示等待组织者配置，不展示伪造数据。
 
 ```bash
 npm install
@@ -80,10 +80,10 @@ Copy-Item .env.example .env.local
 - **wagmi 3 + viem 2 + TanStack Query**。使用 `useConnection`、`useConnectors`、mutation 的 `mutate` / `mutateAsync`，不用旧版 `useAccount` 或已弃用的 mutation 别名。
 - **只有 Sepolia**。钱包链 ID、公共 RPC 链 ID、部署脚本链 ID 均检查。错误网络不能提交。余额、回执和日志显式绑定 Sepolia，不随钱包切到主网。
 - **事件为唯一留言来源**。不维护消息数组、不建数据库、不增加管理员、收费、代币或代理升级逻辑。公开访客无需连接钱包即可读留言。
-- **允许重复提交**。学生可以修正想法、实验交易；每次交易独立消耗测试币 Gas。CLI 按单次交易验收，组织者自行去重。
+- **允许重复提交**。学生可以修正想法、实验交易；每次交易独立消耗测试币 Gas。CLI 验收一对转账和留言交易，组织者对两个哈希分别去重。
 - 写入前检查合约代码、模拟调用、估算 Gas 和费用、读取余额。Gas limit 加 20% 余量；钱包显示的最终费用仍可能受网络变化影响。低于 `0.0001` Sepolia ETH 的余额提醒只是领取引导，实际是否可提交由实时估算决定。
 - `useWriteContract` 取得哈希后，`useWaitForTransactionReceipt` 等待 1 次确认；成功需同时满足回执成功、正确合约发出事件、事件 sender 与提交时钱包一致、事件 content 与提交内容一致。加速替换交易使用最终回执哈希；取消或改变内容不算完成。
-- 交易等待期间不能再次提交；RPC 超时保留交易哈希和“重新查询”按钮，避免把超时当失败重发。回执成功后刷新留言和余额。
+- 交易等待期间不能再次提交；RPC 超时保留交易哈希和“重新查询”按钮，也可选择保留哈希并恢复编辑。恢复编辑不会取消原交易，再发前须查看原交易以免重复提交。回执成功后刷新留言和余额。
 
 ## 合约行为
 
@@ -100,7 +100,7 @@ function leaveMessage(string calldata content) external;
 - 不存储消息列表，不接收 ETH；支付给网络的是交易 Gas。
 - 中文通常占 3 字节、常见 Emoji 占 4 字节。前端使用 `TextEncoder`，与 Solidity `bytes(content).length` 对齐。
 - 合约允许纯空格和任意非空字节；前端额外拒绝纯空白输入，但不会偷偷裁剪用户内容。这保持合约可读性，不把 Unicode 处理搬进链上。
-- `sender` 为调用者；通过其他合约调用时会记录该合约地址。本任务限定直接从钱包调用。
+- `sender` 为调用者；通过其他合约调用时会记录该合约地址。验收以事件作者为准，要求它与单独转账的发送者一致；留言的外层交易 From/To 可以不同。
 
 ## Foundry 安装与测试
 
@@ -133,7 +133,7 @@ npm run build
 npm run test:integration
 ```
 
-`test:integration` 需要 Foundry/Anvil，在专用端口 `18545` 启动临时本地链。测试会部署合约、提交中文和重复消息、读取排序日志、调用验收 CLI，并拒绝错误钱包和普通转账。只用 Anvil 的临时解锁账户；不会使用 `.env.local` 的私钥，不会发送 Sepolia 交易。该端口需要空闲。
+`test:integration` 需要 Foundry/Anvil，在专用端口 `18545` 启动临时本地链。测试会部署合约、转账、提交中文和重复消息、读取排序日志、调用双交易验收 CLI，并拒绝缺失/重复哈希、错误金额、收款地址、作者和顺序。只用 Anvil 的临时解锁账户；不会使用 `.env.local` 的私钥，不会发送 Sepolia 交易。该端口需要空闲。`npm test` 还包含回执错误恢复和 NFT 零值重试的组件测试。
 
 ## 环境变量
 
@@ -267,37 +267,41 @@ Vercel 操作：
 在 `.env.local` / `.env` 或 shell 中配置 RPC、合约地址和部署区块：
 
 ```bash
-npm run verify-quest -- --tx 0x完整交易哈希
+npm run verify-quest -- --transfer-tx 0x转账哈希 --message-tx 0x留言哈希
 ```
 
 Windows PowerShell 传递带 `--` 的脚本参数时，使用 `npm.cmd` 以避免 `npm.ps1` 的参数转发差异：
 
 ```powershell
-npm.cmd run verify-quest -- --tx 0x完整交易哈希
+npm.cmd run verify-quest -- --transfer-tx 0x转账哈希 --message-tx 0x留言哈希
 ```
 
-脚本严格检查：RPC 链为 Sepolia、交易链 ID（存在时）、交易可查询、回执成功、目标为配置合约，以及**该合约**的 `MessageLeft` 事件 sender 与交易发送者匹配。学生只需提交交易哈希；发送地址直接从链上交易读取。第三方伪造同名事件、普通转账、失败交易、其他合约的交易不会通过。
+两个参数都必须提供，旧的单个 `--tx` 参数不再支持。脚本检查 Sepolia 网络、两笔不同的交易、成功回执及部署区块，并验证：
+
+- 转账以空 calldata 直接向配置的任务合约发送**恰好 0.001 Sepolia ETH**；同一合约发出金额和 sender 都匹配的 `TransferReceived` 事件。
+- 留言回执中的 `MessageLeft` 必须由配置的合约发出，事件 sender 必须等于前一笔转账的发送地址。
+- 转账在留言之前确认；同一区块按交易索引比较。转账过晚时，可用转账后新提交的留言进行验收。
+
+留言允许委托执行，外层交易的 From/To 可以与作者/任务合约不同；作者以合约事件为准，并与独立核验的转账发送者匹配。不会把一个事件的 sender 再拿来与它自身比较。失败、缺失、错误金额、错误收款地址、不同作者及伪造事件均不能完成验收。
 
 成功输出示例：
 
 ```text
 ✓ Ethereum Sepolia network
-✓ Transaction found
-✓ Transaction succeeded
-✓ Correct PKUBA contract
-✓ MessageLeft event found
-✓ Sender matches
-
+✓ Transfer: exactly 0.001 Sepolia ETH received by the configured contract
+✓ Message: configured contract event matches the transfer sender (direct or delegated call)
+✓ Transfer confirmed before message; both receipts succeeded
+Author: 0x...
 Message: "Hello PKUBA!"
-Block: ...
-Transaction: 0x...
+Transfer transaction: 0x...
+Message transaction: 0x...
 
-Quest verified successfully.
+Quest verified successfully (transfer + message).
 ```
 
 任何检查失败返回进程退出码 `1`，说明失败项目；成功为 `0`。未挖出的交易提示稍后再查。交易哈希是公开信息，不需要学生发送钱包地址或私钥。
 
-CLI 不证明这个地址属于某个真实学生，也不阻止一笔有效交易被多次提交。组织者将学号/身份在既有活动渠道核对，并按交易哈希去重即可；不要让学生把学号、手机号等写到公开留言里。
+CLI 不证明这个地址属于某个真实学生，也不阻止有效交易被重复提交或同一转账搭配后续留言。组织者在既有活动渠道核对身份，并分别对两个交易哈希去重；不要让学生把学号、手机号等写到公开留言里。
 
 ## 推荐新生活动流程
 
@@ -305,11 +309,11 @@ CLI 不证明这个地址属于某个真实学生，也不阻止一笔有效交�
 2. 创建独立测试钱包，在本地安全保存助记词，不发送给任何人。
 3. 打开测试网络显示，切换到 Ethereum Sepolia。
 4. 从官方水龙头领取少量 Sepolia ETH。
-5. 打开活动页，连接钱包。
+5. 向活动页列出的合约转账 0.001 Sepolia ETH，确认成功并保存哈希，再连接同一钱包。
 6. 输入一条不含个人隐私的留言。
 7. 点击“写入链上”，在钱包中核对网络和合约地址，确认交易。
 8. 等待成功卡片，打开 Sepolia Etherscan；探索 From、To、Tx Hash、Block、Gas Fee、Input Data、Logs。
-9. 在组织者指定渠道提交完整的 **交易哈希**。
+9. 在组织者指定渠道提交**转账和留言两个完整交易哈希**，由脚本共同验收。
 
 组织者可展示极简合约源码，让学生比较“存储状态”与“发出事件”，并观察重复留言产生不同交易哈希。
 
@@ -318,7 +322,7 @@ CLI 不证明这个地址属于某个真实学生，也不阻止一笔有效交�
 - 永远不收集助记词、私钥和钱包密码；组织者也不例外。仅部署者自行在本机管理签名密钥。
 - 留言公开且无法从链上删除，没有管理员删除、内容审核或垃圾信息过滤。上线前告知学生不要填写隐私；这是教学 MVP，不是面向陌生人的审核平台。
 - React 按普通文本渲染留言，不使用 `dangerouslySetInnerHTML`。
-- 不收取 ETH，不要求授权代币，不支持主网。不需要真实资产。
+- 任务需要转账 0.001 Sepolia ETH 测试币，不要求授权代币，不支持主网。不需要真实资产。
 - MetaMask 手机 App 可通过内置浏览器访问；普通手机浏览器未安装 injected provider 时会给出安装提示。本版没有 WalletConnect。
 - 待确认交易状态保存在当前页面会话中，刷新后不会自动恢复。已广播交易依然有效，可从 MetaMask 活动或 Etherscan 找回哈希，不要因刷新盲目重发。
 - 钱包拒绝、余额不足、错链、RPC 故障、合约回退和替换交易分别处理。预检查不是绝对费用承诺，钱包余额和网络费用仍可能变化。

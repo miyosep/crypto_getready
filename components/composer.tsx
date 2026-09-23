@@ -9,7 +9,7 @@ import {
   useWriteContract,
 } from "wagmi";
 import { sepolia } from "wagmi/chains";
-import { type Address } from "viem";
+import { type Address, type Hash } from "viem";
 import {
   ArrowUpRight,
   Check,
@@ -44,6 +44,7 @@ export function Composer() {
   }>();
   const [phase, setPhase] = useState<"idle" | "checking" | "wallet">("idle");
   const [error, setError] = useState<string>();
+  const [unresolvedHashes, setUnresolvedHashes] = useState<Hash[]>([]);
   const guard = useRef(false);
   const receipt = useWaitForTransactionReceipt({
     hash: write.data,
@@ -132,6 +133,15 @@ export function Composer() {
     setSubmission(undefined);
   }
 
+  function recover() {
+    if (!write.data || !receipt.isError || receipt.data || receipt.isFetching) return;
+    const unresolved = write.data;
+    setUnresolvedHashes((previous) =>
+      previous.includes(unresolved) ? previous : [...previous, unresolved],
+    );
+    reset();
+  }
+
   return (
     <section className="composer card" aria-labelledby="composer-title">
       <TransferStep />
@@ -142,6 +152,16 @@ export function Composer() {
         <h2 id="composer-title">留下你的第一条链上留言</h2>
       </div>
       <WalletPanel locked={locked} />
+      {unresolvedHashes.length > 0 && (
+        <div className="notice" role="status">
+          <p>已恢复编辑，但这不会取消原交易。原交易仍可能成功；再次发送前请先核对，避免重复留言。</p>
+          {unresolvedHashes.map((unresolved) => (
+            <a key={unresolved} className="hash-text" href={transactionUrl(unresolved)} target="_blank" rel="noreferrer">
+              查看尚未确认结果的交易：{unresolved}
+            </a>
+          ))}
+        </div>
+      )}
       <form onSubmit={submit} className="message-form">
         <div className="label-row">
           <label htmlFor="message">你的留言</label>
@@ -277,6 +297,11 @@ export function Composer() {
               >
                 重新查询确认状态
               </button>
+              {!receipt.data && (
+                <button type="button" className="text-button" disabled={receipt.isFetching} onClick={recover}>
+                  保留交易哈希并恢复编辑
+                </button>
+              )}
             </div>
           )}
           <div className="transaction-actions">

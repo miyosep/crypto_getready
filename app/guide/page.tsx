@@ -351,7 +351,7 @@ export default function GuidePage() {
               <div className="chapter-label">07 / SUBMISSION</div>
               <h2>提交任务</h2>
               <p>
-                在招新问卷里分别提交转账和留言的完整交易哈希，并注明各自对应的步骤。
+                在招新问卷里分别提交转账和留言的完整交易哈希，并注明各自对应的步骤。组织者会用脚本核验两笔交易：同一地址先向本次合约转账 0.001 Sepolia ETH，再成功留言。
               </p>
              
               <p>

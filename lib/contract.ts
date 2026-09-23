@@ -11,6 +11,7 @@ export const guestbookAbi = parseAbi([
   "function tokenURI(uint256) view returns (string)",
   "function totalMinted() view returns (uint256)",
   "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)",
+  "event TransferReceived(address indexed sender, uint256 amount)",
 ]);
 export const messageEvent = guestbookAbi[1];
 export const byteLength = (text: string) =>

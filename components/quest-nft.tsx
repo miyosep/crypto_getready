@@ -42,9 +42,20 @@ export function QuestNft({ sender }: { sender: Address }) {
       }
     } catch { /* Show a retry instead of a misleading sample ticket. */ }
   }
-  if (token.isError || owner.isError || metadata.isError || (metadata.data && !image)) {
+  const noToken = token.isSuccess && token.data === 0n;
+  const refreshing = token.isFetching || owner.isFetching || metadata.isFetching;
+  async function retry() {
+    const result = await token.refetch();
+    // A changed token ID enables fresh dependent queries on the next render.
+    // Only refetch the current owner/metadata queries when they refer to that ID.
+    if (result.data && result.data === token.data) {
+      await Promise.all([owner.refetch(), metadata.refetch()]);
+    }
+  }
+  if (noToken || token.isError || owner.isError || metadata.isError || (metadata.data !== undefined && !image)) {
     return <p className="muted">留言已成功，NFT 信息暂时无法读取。
-      <button type="button" className="text-button" onClick={() => { void token.refetch(); void owner.refetch(); void metadata.refetch(); }}>重新查询 NFT</button>
+      {noToken && "当前未查到已发放的 NFT，请稍后重试；若持续如此，请联系组织者。"}
+      <button type="button" className="text-button" disabled={refreshing} onClick={() => void retry()}>{refreshing ? "查询中…" : "重新查询 NFT"}</button>
     </p>;
   }
   if (!token.data || !owner.data || !image) return <p className="muted">正在确认纪念 NFT…</p>;

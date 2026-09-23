@@ -60,10 +60,14 @@ configured Forge signer. Never place private keys in NEXT_PUBLIC variables.
 messages, transfer eligibility, smart-account authors, invalid-message rejection,
 ERC-721 ownership, metadata, and matching the website artwork.
 
-`npm run verify-quest -- --tx 0x...` identifies authors from the configured contract's
-MessageLeft logs. It supports delegated calls whose outer To or From differs from
-the message author. A hash proves that an address participated, not that the person
-submitting the hash owns that address.
+`npm run verify-quest -- --transfer-tx 0x... --message-tx 0x...` requires two
+successful Sepolia transactions after deployment: an empty-calldata transfer of
+exactly 0.001 ETH to the configured contract with a matching TransferReceived event,
+followed by a MessageLeft event from that contract whose author matches the transfer
+sender. Same-block order uses transaction indices. Delegated message calls remain
+supported: their outer To/From may differ from the contract/event author. Both hashes
+are required; the old single --tx argument is no longer supported. Organizers must
+deduplicate both hashes and verify participant identity separately.
 
 The NFT is transferable. `tokenOf` records the original recipient permanently;
 `ownerOf` gives the current holder. The success view distinguishes those states.
