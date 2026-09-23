@@ -350,7 +350,7 @@ export default function GuidePage() {
               <div className="chapter-label">07 / SUBMISSION</div>
               <h2>提交任务</h2>
               <p>
-                在招新问卷里分别提交转账和留言的完整交易哈希，并注明各自对应的步骤。
+                在招新问卷里分别提交转账和留言的完整交易哈希。
               </p>
              
               <p>
