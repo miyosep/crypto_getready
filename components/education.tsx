@@ -34,7 +34,7 @@ export function QuestGuide() {
           <span className="step-number">3</span>
           <div>
             <h3>发送一笔测试币</h3>
-            <p>按入门指南向任务合约发送 0.001 Sepolia ETH，保存转账哈希。</p>
+            <p>向任务合约发送 0.001 Sepolia ETH，保存转账哈希。</p>
           </div>
         </li>
         <li>
