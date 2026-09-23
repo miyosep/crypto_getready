@@ -235,7 +235,6 @@ export default function GuidePage() {
                 <li>核对网络、收款地址和金额，确认发送。</li>
                 <li>等待交易成功，在交易详情中打开 Etherscan，保存这笔转账的完整 Tx Hash，然后继续下面的留言步骤。</li>
               </ol>
-              <p>转账和留言是两笔交易。转账不会发放 NFT；首次留言成功后才会收到纪念 NFT。</p>
             </section>
 
             <section id="message">
