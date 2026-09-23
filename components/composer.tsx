@@ -30,6 +30,7 @@ import { findMessage } from "@/lib/receipts";
 import { WalletPanel } from "./wallet-panel";
 import { CompletionGuide } from "./education";
 import { QuestNft } from "./quest-nft";
+import { TransferStep } from "./transfer-step";
 
 export function Composer() {
   const { address, chainId, isConnected } = useConnection();
@@ -133,9 +134,10 @@ export function Composer() {
 
   return (
     <section className="composer card" aria-labelledby="composer-title">
+      <TransferStep />
       <div className="card-heading">
         <div className="section-kicker">
-          <PenLine size={15} /> YOUR FIRST ONCHAIN MESSAGE
+          <PenLine size={15} /> 02 / MESSAGE
         </div>
         <h2 id="composer-title">留下你的第一条链上留言</h2>
       </div>
