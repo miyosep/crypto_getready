@@ -230,9 +230,9 @@ export default function GuidePage() {
                 </p>
               )}
               <ol>
-                <li>确认网络为 <strong>Ethereum Sepolia</strong>，点击 <strong>Send（发送）</strong>，粘贴上面的完整合约地址。</li>
+                <li>确认网络为 <strong>Ethereum Sepolia</strong>，点击 <strong>Send</strong>，粘贴上面的完整合约地址。</li>
                 <li>选择 ETH，填写 <strong>0.001 ETH</strong>。留一些 Sepolia ETH，用于这笔转账和后续留言的 Gas。</li>
-                <li>核对网络、收款地址和金额，确认发送。普通转账不需要填写 Hex Data。</li>
+                <li>核对网络、收款地址和金额，确认发送。</li>
                 <li>等待交易成功，在交易详情中打开 Etherscan，保存这笔转账的完整 Tx Hash，然后继续下面的留言步骤。</li>
               </ol>
               <p>转账和留言是两笔交易。转账不会发放 NFT；首次留言成功后才会收到纪念 NFT。</p>
@@ -280,7 +280,7 @@ export default function GuidePage() {
                   >
                     <code>{settings.address}</code> ↗
                   </a>
-                  。钱包确认窗口里的目标地址应与它一致。
+                  
                 </p>
               ) : (
                 <p>

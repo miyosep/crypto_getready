@@ -35,7 +35,7 @@ export function TransferStep() {
         </div>
       ) : <p role="alert">收款地址尚未配置，请稍后再试。</p>}
       <span className="transfer-copy-status" role="status">{status}</span>
-      <p className="muted">转账成功后保存 Tx Hash，再继续下面的留言步骤。请留一些 Sepolia ETH 支付 Gas。</p>
+      <p className="muted">转账成功后保存 Tx Hash，再继续下面的留言步骤。</p>
     </section>
   );
 }
