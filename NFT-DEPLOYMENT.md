@@ -22,7 +22,18 @@ The artwork uses a 1100 × 1100 square canvas with viewBox `-150 -50 1100 1100`.
 The original 800 × 1000 ticket remains unchanged inside it, with extra margins
 for wallet galleries that crop to a square. Previously deployed artwork is immutable;
 this format requires a new deployment and does not change existing NFTs.
-There is no claim transaction, owner, administrative mint, upgrade, or mint fee.
+There is no claim transaction, administrative mint, upgrade, or mint fee.
+The transfer edition accepts plain ETH transfers and emits `TransferReceived`.
+Only the deploying account can call `withdraw()` to send the entire ETH balance
+back to itself. This authority cannot be transferred. It does not control NFTs.
+Transfers do not mint NFTs or gate messages. The guide asks participants to send
+0.001 Sepolia ETH before leaving a message and save both transaction hashes.
+
+After source verification, the deploying wallet can recover test ETH through
+Sepolia Etherscan → Contract → Write Contract → Connect to Web3 → `withdraw`.
+The transaction sends the full contract ETH balance to `deployer()`; it takes no
+recipient or amount arguments. Use the same account that created the contract.
+Never send ETH along with `leaveMessage`; plain transfers use empty calldata.
 The first message costs more Sepolia gas than a repeat message.
 
 ## Deploy using MetaMask

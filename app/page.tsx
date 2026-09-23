@@ -22,7 +22,7 @@ export default function Home() {
               <br />
               Build on Ethereum<span className="hero-period"></span>
             </h1>
-            <p>PKUBA 2026 秋季入门任务：在 Sepolia 测试网上提交一条留言。</p>
+            <p>PKUBA 2026 秋季入门任务：在 Sepolia 测试网上完成一笔转账，再提交一条留言。</p>
           </div>
           <div className="hero-stamp" aria-hidden="true">
             <Hexagon size={28} strokeWidth={1.1} />

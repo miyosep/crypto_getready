@@ -9,6 +9,7 @@ contract StudentAccount {
 }
 
 contract PKUBAGetReadyTest is Test {
+    receive() external payable {}
     PKUBAGetReady quest;
     address student = address(0xBEEF);
     function setUp() public { quest = new PKUBAGetReady(); }
@@ -61,4 +62,64 @@ contract PKUBAGetReadyTest is Test {
         assertFalse(ok);
         assertEq(quest.totalMinted(), 0);
     }
+
+    function testPlainTransferReceivesEthWithoutMinting() public {
+        vm.deal(student, 1 ether);
+        vm.expectEmit(true, false, false, true, address(quest));
+        emit PKUBAGetReady.TransferReceived(student, 0.001 ether);
+        vm.prank(student);
+        (bool ok,) = address(quest).call{value: 0.001 ether}("");
+        assertTrue(ok);
+        assertEq(address(quest).balance, 0.001 ether);
+        assertEq(quest.totalMinted(), 0);
+        assertEq(quest.tokenOf(student), 0);
+        vm.prank(student);
+        quest.leaveMessage("After transfer");
+        assertEq(quest.ownerOf(1), student);
+    }
+
+    function testUnknownCalldataStillRejected() public {
+        vm.deal(student, 1 ether);
+        vm.prank(student);
+        (bool ok,) = address(quest).call{value: 0.001 ether}(hex"deadbeef");
+        assertFalse(ok);
+        assertEq(address(quest).balance, 0);
+    }
+
+    function testOnlyDeployerCanWithdraw() public {
+        vm.deal(address(quest), 0.2 ether);
+        vm.prank(student);
+        vm.expectRevert(PKUBAGetReady.OnlyDeployer.selector);
+        quest.withdraw();
+        assertEq(address(quest).balance, 0.2 ether);
+        assertEq(quest.deployer(), address(this));
+        uint256 beforeBalance = address(this).balance;
+        vm.expectEmit(true, false, false, true, address(quest));
+        emit PKUBAGetReady.FundsWithdrawn(address(this), 0.2 ether);
+        quest.withdraw();
+        assertEq(address(this).balance, beforeBalance + 0.2 ether);
+        assertEq(address(quest).balance, 0);
+        vm.prank(student);
+        quest.leaveMessage("Still works");
+        assertEq(quest.ownerOf(1), student);
+    }
+
+    function testEmptyWithdrawalReverts() public {
+        vm.expectRevert(PKUBAGetReady.NothingToWithdraw.selector);
+        quest.withdraw();
+    }
+
+    function testWithdrawalFailureKeepsFunds() public {
+        RejectingDeployer receiver = new RejectingDeployer();
+        PKUBAGetReady other = receiver.quest();
+        vm.deal(address(other), 0.001 ether);
+        vm.expectRevert(PKUBAGetReady.WithdrawalFailed.selector);
+        receiver.withdraw();
+        assertEq(address(other).balance, 0.001 ether);
+    }
+}
+
+contract RejectingDeployer {
+    PKUBAGetReady public quest = new PKUBAGetReady();
+    function withdraw() external { quest.withdraw(); }
 }

@@ -33,6 +33,13 @@ export function QuestGuide() {
         <li>
           <span className="step-number">3</span>
           <div>
+            <h3>发送一笔测试币</h3>
+            <p>按入门指南向任务合约发送 0.001 Sepolia ETH，保存转账哈希。</p>
+          </div>
+        </li>
+        <li>
+          <span className="step-number">4</span>
+          <div>
             <h3>把你的想法写上链</h3>
             <p>输入留言，在钱包中确认交易。等它上链，去 Etherscan 看看！</p>
           </div>

@@ -18,6 +18,7 @@ const origin = 'http://127.0.0.1:3001';
 const html = `<!doctype html><html lang="ko"><meta charset="utf-8"><title>Get Ready · Sepolia 배포</title>
 <style>body{font:17px/1.7 system-ui;max-width:720px;margin:80px auto;padding:24px;color:#27272a}button{background:#a6192e;color:white;border:0;border-radius:8px;padding:14px 24px;font:inherit;cursor:pointer}button:disabled{opacity:.5}pre{white-space:pre-wrap;overflow-wrap:anywhere}a{color:#a6192e}</style>
 <h1>Get Ready · NFT 계약 배포</h1><img src="/artwork.svg" alt="Get Ready NFT" width="300" height="300"><p>첫留言과 함께 기념 NFT를 지갑당 한 개 발행하는 새 계약을 Ethereum Sepolia에 배포합니다. 실제 ETH 전송 금액은 0이며, Sepolia ETH로 가스비만 지불합니다.</p>
+<p>이번 버전은 일반 Sepolia ETH 송금을 받습니다. 배포할 때 선택한 지갑만 withdraw()로 모인 ETH를 자기 주소로 회수할 수 있습니다. 송금과 留言은 별도 거래이며, 최초 留言에서만 NFT가 발급됩니다.</p>
 <p>승인 후 배포가 확인되면 사이트의 계약 설정을 자동으로 저장합니다.</p>
 <button id="deploy">MetaMask로 배포하기</button><pre id="status">MetaMask가 설치된 PC 브라우저에서 열어 주세요.</pre>
 <script>
@@ -75,6 +76,8 @@ const server = createServer(async (req, res) => {
     if (receipt.status !== 'success' || !receipt.contractAddress || tx.to !== null || tx.input.toLowerCase() !== bytecode.toLowerCase() || tx.value !== 0n) throw Error('Expected contract deployment not found');
     const code = await client.getCode({ address: receipt.contractAddress });
     if (code?.toLowerCase() !== artifact.deployedBytecode.object.toLowerCase()) throw Error('Deployed bytecode mismatch');
+    const deployer = await client.readContract({ address: receipt.contractAddress, abi: artifact.abi, functionName: 'deployer' });
+    if (deployer.toLowerCase() !== tx.from.toLowerCase()) throw Error('Withdrawal authority does not match deployment wallet');
     const path = root + '.env.local';
     let env = existsSync(path) ? readFileSync(path, 'utf8') : '';
     // Keep the original backup and a separate recovery copy for each deployment.

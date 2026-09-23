@@ -15,6 +15,7 @@ const chapters = [
   ["wallet", "安装与创建钱包"],
   ["network", "设置 Sepolia 网络"],
   ["faucet", "领取测试币"],
+  ["transfer", "发送一笔测试币"],
   ["message", "连接并提交留言"],
   ["receipt", "查看交易结果"],
   ["submit", "提交任务"],
@@ -41,7 +42,7 @@ export default function GuidePage() {
           </p>
           <p>
             这次热身任务是在 <strong>Ethereum Sepolia 测试网</strong>
-            上提交一条留言，最后记录<strong>交易哈希</strong>。
+            上完成一笔测试币转账，再提交一条留言，最后记录<strong>交易哈希</strong>。
           </p>
           <p>
             如果你已经有链上交互经验，这项任务应该很快就能完成。如果是第一次尝试，也不用担心，跟着下面的步骤，从创建钱包开始，一步步完成你的第一笔链上交易。
@@ -216,8 +217,29 @@ export default function GuidePage() {
 
             </section>
 
+            <section id="transfer">
+              <div className="chapter-label">04 / TRANSFER</div>
+              <h2>向任务合约发送测试币</h2>
+              <p>使用刚才领取测试币的账户，在 MetaMask 中完成这一步。</p>
+              {settings.address && (
+                <p>
+                  收款地址：{" "}
+                  <a className="guide-contract" href={`https://sepolia.etherscan.io/address/${settings.address}`} target="_blank" rel="noreferrer">
+                    <code>{settings.address}</code> ↗
+                  </a>
+                </p>
+              )}
+              <ol>
+                <li>确认网络为 <strong>Ethereum Sepolia</strong>，点击 <strong>Send（发送）</strong>，粘贴上面的完整合约地址。</li>
+                <li>选择 ETH，填写 <strong>0.001 ETH</strong>。留一些 Sepolia ETH，用于这笔转账和后续留言的 Gas。</li>
+                <li>核对网络、收款地址和金额，确认发送。普通转账不需要填写 Hex Data。</li>
+                <li>等待交易成功，在交易详情中打开 Etherscan，保存这笔转账的完整 Tx Hash，然后继续下面的留言步骤。</li>
+              </ol>
+              <p>转账和留言是两笔交易。转账不会发放 NFT；首次留言成功后才会收到纪念 NFT。</p>
+            </section>
+
             <section id="message">
-              <div className="chapter-label">04 / FIRST INTERACTION</div>
+              <div className="chapter-label">05 / FIRST INTERACTION</div>
               <h2>连接钱包，提交一条留言</h2>
               <p>
                 回到
@@ -271,7 +293,7 @@ export default function GuidePage() {
             </section>
 
             <section id="receipt">
-              <div className="chapter-label">05 / ETHERSCAN</div>
+              <div className="chapter-label">06 / ETHERSCAN</div>
               <h2>查看交易和留言</h2>
               <p>
                 交易哈希（Transaction Hash / Tx
@@ -326,10 +348,10 @@ export default function GuidePage() {
             </section>
 
             <section id="submit">
-              <div className="chapter-label">06 / SUBMISSION</div>
+              <div className="chapter-label">07 / SUBMISSION</div>
               <h2>提交任务</h2>
               <p>
-                在招新问卷里提交这笔交易的交易哈希。
+                在招新问卷里分别提交转账和留言的完整交易哈希，并注明各自对应的步骤。
               </p>
              
               <p>
