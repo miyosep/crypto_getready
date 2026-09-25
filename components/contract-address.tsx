@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Check, Copy, ExternalLink } from "lucide-react";
+import { addressUrl, blockscoutAddressUrl } from "@/lib/contract";
 import type { Locale } from "@/lib/i18n";
 
 type ContractAddressProps = {
@@ -52,11 +53,20 @@ export function ContractAddress({
         </button>
         <a
           className="contract-explorer-link"
-          href={`https://sepolia.etherscan.io/address/${address}`}
+          href={addressUrl(address)}
           target="_blank"
           rel="noreferrer"
         >
           {en ? "View on Etherscan" : "在 Etherscan 上查看"}{" "}
+          <ExternalLink size={14} />
+        </a>
+        <a
+          className="contract-explorer-link secondary"
+          href={blockscoutAddressUrl(address)}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {en ? "Blockscout backup" : "Blockscout 备用入口"}{" "}
           <ExternalLink size={14} />
         </a>
       </div>

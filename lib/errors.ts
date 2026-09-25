@@ -44,6 +44,6 @@ export function friendlyError(error: unknown, locale: Locale = "zh"): string {
       ? "This page cannot access MetaMask. Check the extension and its site permissions in this browser profile, then refresh."
       : "当前页面无法访问 MetaMask。请检查当前浏览器配置文件中的扩展和本站访问权限，然后刷新重试。";
   return en
-    ? "The test network is temporarily unavailable. Check your connection and try again. If you already have a transaction hash, check Etherscan first to avoid submitting twice."
-    : "暂时无法连接测试网络。请检查网络后重试；若已经获得交易哈希，请先在 Etherscan 查看，避免重复提交。";
+    ? "The test network is temporarily unavailable. Check your connection and try again. If you already have a transaction hash, check Etherscan or Blockscout first to avoid submitting twice."
+    : "暂时无法连接测试网络。请检查网络后重试；若已经获得交易哈希，请先在 Etherscan 或 Blockscout 查看，避免重复提交。";
 }

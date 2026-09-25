@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useReadContract } from "wagmi";
 import { sepolia } from "wagmi/chains";
 import { isAddressEqual, type Address } from "viem";
-import { guestbookAbi } from "@/lib/contract";
+import { blockscoutTokenUrl, guestbookAbi, tokenUrl } from "@/lib/contract";
 import { settings } from "@/lib/config";
 import type { Locale } from "@/lib/i18n";
 
@@ -60,7 +60,7 @@ export function QuestNft({ sender, locale = "zh" }: { sender: Address; locale?: 
       <button type="button" className="text-button" disabled={refreshing} onClick={() => void retry()}>{refreshing ? (en ? "Checking…" : "查询中…") : (en ? "Check NFT again" : "重新查询 NFT")}</button>
     </p>;
   }
-  if (!token.data || !owner.data || !image) return <p className="muted">{en ? "Confirming your commemorative NFT…" : "正在确认纪念 NFT…"}</p>;
+  if (!settings.address || !token.data || !owner.data || !image) return <p className="muted">{en ? "Confirming your commemorative NFT…" : "正在确认纪念 NFT…"}</p>;
   const held = isAddressEqual(owner.data, sender);
   return (
     <div className="quest-nft">
@@ -69,7 +69,10 @@ export function QuestNft({ sender, locale = "zh" }: { sender: Address; locale?: 
         <h3>{held ? (en ? "Your Get Ready commemorative NFT" : "你的 Get Ready 纪念 NFT") : (en ? "You already received the commemorative NFT" : "你已领取过纪念 NFT")}</h3>
         <p>PKUBA Get Ready #{token.data.toString()}</p>
         <p className="muted">{held ? (en ? "It was sent directly to your wallet. Nothing else is required; each address receives one after its first message." : "已发放至你的钱包，无需另外领取。每个地址首次留言可获得一枚。") : (en ? "This NFT has been transferred away. Sending another message will not issue another one." : "这枚 NFT 已转出，重复留言不会再次发放。")}</p>
-        <a href={`https://sepolia.etherscan.io/token/${settings.address}?a=${token.data}`} target="_blank" rel="noreferrer">{en ? "View NFT on Etherscan ↗" : "在 Etherscan 上查看 NFT ↗"}</a>
+        <div className="quest-nft-links">
+          <a href={tokenUrl(settings.address, token.data)} target="_blank" rel="noreferrer">{en ? "View NFT on Etherscan ↗" : "在 Etherscan 上查看 NFT ↗"}</a>
+          <a href={blockscoutTokenUrl(settings.address, token.data)} target="_blank" rel="noreferrer">{en ? "Blockscout backup ↗" : "Blockscout 备用入口 ↗"}</a>
+        </div>
       </div>
     </div>
   );

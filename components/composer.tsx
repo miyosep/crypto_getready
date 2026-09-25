@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import {
   byteLength,
+  blockscoutTransactionUrl,
   guestbookAbi,
   transactionUrl,
   validateMessage,
@@ -29,6 +30,7 @@ import { friendlyError } from "@/lib/errors";
 import type { Locale } from "@/lib/i18n";
 import { findMessage } from "@/lib/receipts";
 import { WalletPanel } from "./wallet-panel";
+import { MyMessages } from "./my-messages";
 import { CompletionGuide } from "./education";
 import { QuestNft } from "./quest-nft";
 import { TransferStep } from "./transfer-step";
@@ -156,6 +158,9 @@ export function Composer({ locale = "zh" }: { locale?: Locale }) {
         <h2 id="composer-title">{en ? "Leave your first onchain message" : "留下你的第一条链上留言"}</h2>
       </div>
       <WalletPanel locked={locked} locale={locale} />
+      {isConnected && address && (
+        <MyMessages address={address} locale={locale} />
+      )}
       {unresolvedHashes.length > 0 && (
         <div className="notice" role="status">
           <p>{en ? "Editing has been restored, but the original transaction was not cancelled and may still succeed. Check it before sending again to avoid a duplicate message." : "已恢复编辑，但这不会取消原交易。原交易仍可能成功；再次发送前请先核对，避免重复留言。"}</p>
@@ -289,7 +294,7 @@ export function Composer({ locale = "zh" }: { locale?: Locale }) {
           {receipt.isError && (
             <div className="notice error">
               <p>
-                {en ? "The confirmation result is temporarily unavailable. This does not mean the transaction failed. Check Etherscan or try querying again." : "暂时无法取得确认结果，这不代表交易失败。先查看 Etherscan，或继续查询。"}
+                {en ? "The confirmation result is temporarily unavailable. This does not mean the transaction failed. Check Etherscan or Blockscout, or try querying again." : "暂时无法取得确认结果，这不代表交易失败。先查看 Etherscan 或 Blockscout，或继续查询。"}
               </p>
               <button
                 type="button"
@@ -307,14 +312,24 @@ export function Composer({ locale = "zh" }: { locale?: Locale }) {
             </div>
           )}
           <div className="transaction-actions">
-            <a
-              className="button outline small"
-              href={transactionUrl(hash)}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {en ? "View on Etherscan" : "在 Etherscan 上查看"} <ExternalLink size={14} />
-            </a>
+            <div className="explorer-links">
+              <a
+                className="button outline small"
+                href={transactionUrl(hash)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {en ? "View on Etherscan" : "在 Etherscan 上查看"} <ExternalLink size={14} />
+              </a>
+              <a
+                className="button outline small secondary"
+                href={blockscoutTransactionUrl(hash)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {en ? "Blockscout backup" : "Blockscout 备用入口"} <ExternalLink size={14} />
+              </a>
+            </div>
             {receipt.data && !succeeded && (
               <button type="button" className="text-button" onClick={reset}>
                 {en ? "Edit the message again" : "重新编辑留言"}

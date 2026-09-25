@@ -19,8 +19,20 @@ export const byteLength = (text: string) =>
   new TextEncoder().encode(text).length;
 export const shortAddress = (address: string) =>
   `${address.slice(0, 6)}…${address.slice(-4)}`;
+export const etherscanBaseUrl = "https://sepolia.etherscan.io";
+export const explorerBaseUrl = "https://eth-sepolia.blockscout.com";
 export const transactionUrl = (hash: string) =>
-  `https://sepolia.etherscan.io/tx/${hash}`;
+  `${etherscanBaseUrl}/tx/${hash}`;
+export const blockscoutTransactionUrl = (hash: string) =>
+  `${explorerBaseUrl}/tx/${hash}`;
+export const addressUrl = (address: string) =>
+  `${etherscanBaseUrl}/address/${address}`;
+export const blockscoutAddressUrl = (address: string) =>
+  `${explorerBaseUrl}/address/${address}`;
+export const tokenUrl = (address: string, tokenId: bigint) =>
+  `${etherscanBaseUrl}/token/${address}?a=${tokenId}`;
+export const blockscoutTokenUrl = (address: string, tokenId: bigint) =>
+  `${explorerBaseUrl}/token/${address}/instance/${tokenId}`;
 
 export function validateMessage(
   content: string,

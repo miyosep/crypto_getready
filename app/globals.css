@@ -343,24 +343,80 @@ p {
   margin-top: 9px;
 }
 .safety-note {
-  display: flex;
-  gap: 10px;
-  background: #faf7f8;
-  padding: 16px;
-  border-radius: 9px;
-  color: #67585c;
+  position: relative;
+  isolation: isolate;
+  display: block;
+  margin: 42px 12px 30px;
+  color: #171315;
+}
+.safety-note::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -26px;
+  background: repeating-conic-gradient(
+    from -4deg at 50% 50%,
+    transparent 0deg 7deg,
+    rgba(22, 18, 20, 0.78) 7deg 7.8deg,
+    transparent 7.8deg 13deg
+  );
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  opacity: 0.78;
+}
+.safety-note::after {
+  content: "!!";
+  position: absolute;
+  z-index: 2;
+  top: -36px;
+  right: -8px;
+  color: var(--brand);
+  font-family: Arial Black, Impact, sans-serif;
+  font-size: 42px;
+  font-style: italic;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -7px;
+  -webkit-text-stroke: 2px #171315;
+  paint-order: stroke fill;
+  transform: rotate(8deg);
+  text-shadow: 3px 3px 0 #fff;
+}
+.safety-note > div {
+  position: relative;
+  z-index: 1;
+  padding: 18px 19px 17px;
+  border: 3px solid #171315;
+  background-color: #fff;
+  background-image: radial-gradient(rgba(145, 35, 60, 0.19) 0.8px, transparent 0.8px);
+  background-size: 5px 5px;
+  box-shadow: 7px 7px 0 var(--brand);
+  transform: rotate(-0.7deg);
 }
 .safety-note > svg {
   margin-top: 2px;
 }
 .safety-note strong {
-  font-size: 13px;
-  font-weight: 600;
+  display: block;
+  color: #171315;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  text-shadow: 1px 1px 0 #fff;
+}
+.safety-note strong::after {
+  content: "";
+  display: block;
+  width: 42px;
+  height: 4px;
+  margin-top: 7px;
+  background: var(--brand);
+  transform: skewX(-22deg);
 }
 .safety-note p {
   font-size: 12px;
-  line-height: 1.85;
-  margin-top: 5px;
+  font-weight: 540;
+  line-height: 1.8;
+  margin: 9px 0 0;
 }
 .term-guide {
   margin-top: 20px;
@@ -487,6 +543,10 @@ p {
 }
 .contract-explorer-link:hover {
   background: #fcf2f5;
+}
+.contract-explorer-link.secondary {
+  border-style: dashed;
+  color: var(--muted);
 }
 .contract-copy-status {
   display: block;
@@ -816,6 +876,16 @@ textarea:disabled {
   gap: 12px;
   margin-top: 17px;
 }
+.explorer-links,
+.quest-nft-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+.explorer-links .secondary {
+  border-style: dashed;
+  color: var(--muted);
+}
 .hash-text {
   display: block;
   word-break: break-all;
@@ -857,6 +927,78 @@ textarea:disabled {
 .completion-guide ul {
   padding-left: 20px;
   line-height: 2;
+}
+.my-messages {
+  padding: 22px 30px;
+  border-bottom: 1px solid var(--line);
+  background: #fffdfd;
+}
+.my-messages-heading,
+.my-messages-heading > div,
+.my-message-meta,
+.my-messages-status {
+  display: flex;
+  align-items: center;
+}
+.my-messages-heading {
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+.my-messages-heading > div {
+  gap: 9px;
+}
+.my-messages-heading h3 {
+  font-size: 15px;
+  font-weight: 650;
+}
+.my-messages-heading .text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.my-messages-icon {
+  display: grid;
+  place-items: center;
+  width: 29px;
+  height: 29px;
+  border-radius: 8px;
+  color: var(--brand);
+  background: var(--soft);
+}
+.my-message-list {
+  display: grid;
+  gap: 10px;
+}
+.my-message-item {
+  min-width: 0;
+  padding: 15px 16px;
+  border: 1px solid #eadde0;
+  border-radius: 9px;
+  background: #fff;
+}
+.my-message-item > p {
+  font-size: 14px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+.my-message-meta {
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 12px;
+}
+.my-message-meta time {
+  color: var(--muted);
+  font-size: 11px;
+}
+.my-message-meta .button {
+  flex-shrink: 0;
+}
+.my-messages-status {
+  gap: 7px;
+  min-height: 30px;
+  color: var(--muted);
+  font-size: 13px;
 }
 .guestbook-section {
   margin-top: 57px;
@@ -1208,6 +1350,21 @@ textarea:disabled {
   .safety-note p {
     font-size: 13px;
   }
+  .safety-note {
+    margin: 44px 18px 32px;
+  }
+  .safety-note::before {
+    inset: -20px;
+  }
+  .safety-note::after {
+    top: -34px;
+    right: -5px;
+    font-size: 38px;
+  }
+  .safety-note > div {
+    padding: 17px 18px 16px;
+    box-shadow: 6px 6px 0 var(--brand);
+  }
   .term-guide {
     font-size: 14px;
   }
@@ -1232,6 +1389,13 @@ textarea:disabled {
   }
   .wallet-label p {
     font-size: 11px;
+  }
+  .my-messages {
+    padding: 20px;
+  }
+  .my-message-meta {
+    align-items: flex-start;
+    flex-direction: column;
   }
   .message-form {
     padding: 21px 20px;
@@ -1346,6 +1510,13 @@ textarea:disabled {
   .transaction-actions {
     align-items: flex-start;
     flex-direction: column;
+  }
+  .explorer-links {
+    width: 100%;
+  }
+  .explorer-links .button {
+    justify-content: center;
+    width: 100%;
   }
   .section-title .section-kicker {
     max-width: 180px;
@@ -1756,4 +1927,5 @@ textarea:disabled {
 .quest-nft { display: flex; align-items: center; gap: 24px; margin: 28px 0; padding: 24px 0; border-block: 1px solid #e8dfe1; }
 .quest-nft img { width: 140px; height: auto; flex: none; }
 .quest-nft p { margin: 8px 0; }
+.quest-nft-links a:last-child { color: var(--muted); }
 @media (max-width: 540px) { .quest-nft { align-items: flex-start; flex-direction: column; } }

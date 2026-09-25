@@ -53,6 +53,9 @@ export default function GuidePage() {
           <p>
             如果你已经有链上交互经验，这项任务应该很快就能完成。如果是第一次尝试，也不用担心，跟着下面的步骤，从创建钱包开始，一步步完成你的第一笔链上交易吧！
           </p>
+          <p>
+            在现在这个时代，AI 是大家最好的老师，在完成任务期间有任何问题、有任何不懂的概念，都可以直接询问 AI，使用 AI 在未来会变得像使用手机一样普遍。如果你还是有问题的话，欢迎在微信群中提问，任何问题都可以提~
+          </p>
         </header>
         <div className="guide-layout">
           <nav className="guide-toc" aria-label="指南目录">
@@ -123,10 +126,6 @@ export default function GuidePage() {
                 <strong>记住这一句：</strong>地址可以给别人，助记词和私钥永远不能给任何人。
                 客服、老师、同学和本网站都不需要知道它们。
               </div>
-              <h3>为什么本任务建议新建测试钱包？</h3>
-              <p>
-                它能把练习与真实资产隔离。即使误连了不熟悉的网站，风险也只局限在这个没有真实资产的练习账户。完成本任务只需要 MetaMask 浏览器扩展、一个新测试钱包和少量免费的 Sepolia 测试币。
-              </p>
               <p className="step-result">读完本节，你应该知道：钱包用来管理密钥和签名，地址可公开，助记词与私钥必须保密。</p>
             </section>
 
@@ -169,7 +168,7 @@ export default function GuidePage() {
                   选择<strong>“创建新钱包”</strong>，按照提示创建新钱包并设置解锁密码。
                 </li>
                 <li>
-                  钱包会显示助记词。确认周围无人、没有录屏或共享屏幕后，按顺序抄写在纸上并完成验证。不要截图、上传网盘或发到聊天软件。助记词是进入钱包的唯一钥匙，任何其他人拿到助记词就可以进入钱包。
+                  钱包会显示助记词。确认周围无人、没有录屏或共享屏幕后，按顺序抄写在纸上并完成验证。不要截图、上传网盘或发到聊天软件。助记词是进入钱包的唯一钥匙，任何其他人拿到助记词就可以进入钱包并完成转账等所有操作。
                 </li>
                 <li>
                   进入账户页面，找到以 <code>0x</code> 开头的以太坊
@@ -300,7 +299,7 @@ export default function GuidePage() {
                 查看其他来源。
               </p>
               <p>
-                或者用{" "}
+                如果你感兴趣，也可以尝试{" "}
                 <a href="https://sepolia-faucet.pk910.de" target="_blank" rel="noreferrer">
                   PoW faucet ↗
                 </a>
@@ -325,9 +324,9 @@ export default function GuidePage() {
               </p>
               <ol>
                 <li>确认网络为 <strong>Sepolia</strong>，点击<strong>“发送”</strong>，粘贴上面的完整合约地址。</li>
-                <li>选择 ETH，填写 <strong>0.001 ETH</strong>。留一些 Sepolia 测试币，用于这笔转账和后续留言的手续费。</li>
+                <li>选择 <strong>SepoliaETH</strong>，填写 <strong>0.001 ETH</strong>。留一些 Sepolia 测试币，用于这笔转账和后续留言的手续费。</li>
                 <li>核对网络、收款地址和金额，确认发送。</li>
-                <li>等待交易成功，在交易详情中打开 Etherscan，保存这笔转账的完整交易哈希，然后继续下面的留言步骤。</li>
+                <li>等待交易成功，在交易详情中打开 Etherscan；如果无法访问，就使用 Blockscout 备用入口。保存完整交易哈希后，继续下面的留言步骤。</li>
               </ol>
               <div className="guide-checkpoint">
                 <strong>签名前再核对一次</strong>
@@ -386,7 +385,7 @@ export default function GuidePage() {
             </section>
 
             <section id="receipt">
-              <div className="chapter-label">06 / ETHERSCAN</div>
+              <div className="chapter-label">06 / BLOCK EXPLORER</div>
               <h2>查看交易和留言</h2>
               <p>
                 <strong>区块链浏览器（Block Explorer）</strong>是用来查询链上公开数据的网站，有点像区块链的“搜索引擎”。
@@ -395,14 +394,18 @@ export default function GuidePage() {
                 它只能读取公开的链上记录，不是钱包，也不会保管你的资产；浏览时不需要连接钱包，更不会发起交易。
               </p>
               <p>
+                <strong>Blockscout</strong> 是另一款区块链浏览器，能查询同一份 Sepolia 链上公开数据。
+                本任务同时提供两个入口：默认使用 Etherscan；如果当前网络无法访问，就使用 Blockscout 备用入口。
+              </p>
+              <p>
                 交易哈希是这笔交易的唯一编号，通常是 <code>0x</code> 加 64
                 个十六进制字符，共 66
                 位。它与钱包地址不同：一个地址可以发送很多笔交易，每笔交易都有自己的哈希。
               </p>
               <ol>
                 <li>
-                  在成功结果里点击<strong>“在 Etherscan 上查看”</strong>，会打开
-                  Sepolia 区块浏览器中的这笔交易。
+                  在成功结果里点击<strong>“在 Etherscan 上查看”</strong>；如果页面无法打开，点击旁边的
+                  <strong>“Blockscout 备用入口”</strong>。两者查看的是 Sepolia 上同一笔交易。
                 </li>
                 <li>
                   找到<strong>交易哈希</strong>，点击旁边的复制按钮复制完整内容。
@@ -414,7 +417,7 @@ export default function GuidePage() {
               </ol>
               <h3>在<strong>日志（Logs）</strong>中读到自己的留言</h3>
               <p>
-                <strong>智能合约</strong>已在 Etherscan 完成源码验证，留言会直接显示为文字，中文也可以正常阅读。
+                <strong>智能合约</strong>已完成源码验证，留言会直接显示为文字，中文也可以正常阅读。
               </p>
               <ol>
                 <li>

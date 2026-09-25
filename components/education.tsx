@@ -15,7 +15,7 @@ export function QuestGuide({ locale = "zh" }: { locale?: Locale }) {
       </p>
       <Link
         className="full-guide-link"
-        href={en ? "/en/guide#before-you-start" : "/guide#before-you-start"}
+        href={en ? "/en/guide" : "/guide"}
         target="_blank"
         rel="noreferrer"
       >
@@ -47,7 +47,7 @@ export function QuestGuide({ locale = "zh" }: { locale?: Locale }) {
           <span className="step-number">4</span>
           <div>
             <h3>{en ? "Put your message onchain" : "把你的想法写上链"}</h3>
-            <p>{en ? "Write a message, confirm the transaction in your wallet, and inspect it on Etherscan once it is onchain." : "输入留言，在钱包中确认交易。等它上链，去 Etherscan 看看！"}</p>
+            <p>{en ? "Write a message, confirm the transaction in your wallet, and inspect it in a block explorer once it is onchain." : "输入留言，在钱包中确认交易。等它上链，去区块链浏览器看看！"}</p>
           </div>
         </li>
       </ol>

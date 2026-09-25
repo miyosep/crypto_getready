@@ -17,6 +17,7 @@ const state = vi.hoisted(() => ({
 vi.mock("@/lib/config", () => ({ settings: { ready: true, address: "0x1111111111111111111111111111111111111111" }, nftEnabled: true }));
 vi.mock("@tanstack/react-query", () => ({ useQueryClient: () => ({ invalidateQueries: vi.fn() }) }));
 vi.mock("../components/wallet-panel", () => ({ WalletPanel: () => null }));
+vi.mock("../components/my-messages", () => ({ MyMessages: () => null }));
 vi.mock("../components/education", () => ({ CompletionGuide: () => null }));
 vi.mock("../components/transfer-step", () => ({ TransferStep: () => null }));
 vi.mock("wagmi", async () => {

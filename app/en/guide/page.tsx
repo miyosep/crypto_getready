@@ -47,6 +47,9 @@ export default function EnglishGuidePage() {
           <p>
             If you already have onchain experience, this should be quick. If this is your first time, follow the steps below from creating a wallet through completing your first transaction.
           </p>
+          <p>
+            Today, AI can be one of your best teachers. If you run into any questions or unfamiliar concepts while completing the quest, feel free to ask an AI directly. Using AI will likely become as commonplace as using a smartphone. If you still need help, you are always welcome to ask in the WeChat group—no question is too small.
+          </p>
         </header>
 
         <div className="guide-layout">
@@ -116,10 +119,6 @@ export default function EnglishGuidePage() {
               <div className="guide-callout guide-callout-danger">
                 <strong>Remember this:</strong> your address can be shared, but your recovery phrase and private key must never be shared. Support staff, teachers, classmates, and this website will never need them.
               </div>
-              <h3>Why create a new test wallet for this quest?</h3>
-              <p>
-                It keeps practice separate from real assets. Even if you accidentally connect to an unfamiliar website, the risk is limited to a practice account with no real assets. You only need the MetaMask browser extension, a new test wallet, and a small amount of free Sepolia ETH.
-              </p>
               <p className="step-result">After this section, you should understand that a wallet manages keys and signatures, an address is public, and recovery phrases and private keys must remain secret.</p>
             </section>
 
@@ -139,7 +138,7 @@ export default function EnglishGuidePage() {
                 </li>
                 <li>Select <strong>“Create a new wallet”</strong>, follow the prompts, and set a password that unlocks the extension on this device.</li>
                 <li>
-                  MetaMask will show a secret recovery phrase. Make sure nobody can see your screen and that you are not recording or sharing it. Write the words on paper in order and complete the verification. Do not take a screenshot, upload it, or send it in a chat. Anyone with this phrase can enter the wallet.
+                  MetaMask will show a secret recovery phrase. Make sure nobody can see your screen and that you are not recording or sharing it. Write the words on paper in order and complete the verification. Do not take a screenshot, upload it, or send it in a chat. Anyone with this phrase can enter the wallet and perform transfers or any other action.
                 </li>
                 <li>
                   Open the account page and find the Ethereum address beginning with <code>0x</code>.
@@ -208,7 +207,7 @@ export default function EnglishGuidePage() {
                 <li>Wait for distribution to finish, then return to MetaMask and check your Sepolia ETH balance.</li>
               </ol>
               <p>If that faucet is unavailable or your account is ineligible, use the <a href={faucets[1].url} target="_blank" rel="noreferrer">Ethereum.org faucet directory ↗</a> to find alternatives.</p>
-              <p>You can also try the <a href="https://sepolia-faucet.pk910.de" target="_blank" rel="noreferrer">PoW faucet ↗</a> to experience mining for valueless test ETH.</p>
+              <p>If you are curious, you can also try the <a href="https://sepolia-faucet.pk910.de" target="_blank" rel="noreferrer">PoW faucet ↗</a> and experience the fun of mining—even though you will only be mining valueless test ETH.</p>
               <div className="guide-callout">
                 <strong>Never pay for test ETH.</strong> A faucet needs only your public address—not your recovery phrase or private key. If the balance does not appear immediately, confirm that MetaMask is still on Sepolia, wait a few minutes, and refresh.
               </div>
@@ -224,9 +223,9 @@ export default function EnglishGuidePage() {
               </p>
               <ol>
                 <li>Confirm the network is <strong>Sepolia</strong>, select <strong>“Send”</strong>, and paste the complete contract address above.</li>
-                <li>Select ETH and enter <strong>0.001 ETH</strong>. Keep some Sepolia ETH for this transfer’s fee and the later message transaction.</li>
+                <li>Select <strong>SepoliaETH</strong> and enter <strong>0.001 ETH</strong>. Keep some Sepolia test ETH for this transfer’s fee and the later message transaction.</li>
                 <li>Check the network, recipient address, and amount, then confirm the transfer.</li>
-                <li>Wait for success, open the transaction in Etherscan, and save the complete transfer transaction hash before continuing.</li>
+                <li>Wait for success and open the transaction in Etherscan. If it is unreachable, use the Blockscout backup. Save the complete transaction hash before continuing.</li>
               </ol>
               <div className="guide-checkpoint">
                 <strong>Check once more before signing</strong>
@@ -256,21 +255,24 @@ export default function EnglishGuidePage() {
             </section>
 
             <section id="receipt">
-              <div className="chapter-label">06 / ETHERSCAN</div>
+              <div className="chapter-label">06 / BLOCK EXPLORER</div>
               <h2>View your transaction and message</h2>
               <p>
                 A <strong>block explorer</strong> is a website for searching public blockchain data—similar to a search engine for a blockchain. You can enter a wallet address, transaction hash, or contract address to see balances, transaction status, time, and fees. <strong>Etherscan</strong> is a commonly used block explorer for Ethereum Mainnet and test networks such as Sepolia. It reads public records; it is not a wallet, does not hold your assets, and requires no wallet connection to browse.
               </p>
               <p>
+                <strong>Blockscout</strong> is another block explorer that reads the same public Sepolia data. This quest provides both: Etherscan is the primary link, and Blockscout is the backup when Etherscan is unreachable.
+              </p>
+              <p>
                 A transaction hash is the unique identifier for one transaction, normally <code>0x</code> followed by 64 hexadecimal characters, for 66 characters total. It is different from a wallet address: one address can send many transactions, and every transaction has its own hash.
               </p>
               <ol>
-                <li>In the success panel, select <strong>“View on Etherscan”</strong> to open the transaction in the Sepolia block explorer.</li>
+                <li>Select <strong>“View on Etherscan”</strong>. If it does not open, select <strong>“Blockscout backup”</strong>. Both show the same Sepolia transaction.</li>
                 <li>Find the <strong>transaction hash</strong> and use its copy button to save the complete value.</li>
                 <li>The <strong>block</strong> is where the transaction was recorded, and the <strong>transaction fee</strong> is the amount actually paid.</li>
               </ol>
               <h3>Read your message in <strong>Logs</strong></h3>
-              <p>The <strong>smart contract</strong> source code is verified on Etherscan, so the message is displayed as readable text.</p>
+              <p>The <strong>smart contract</strong> source code is verified, so the message is displayed as readable text.</p>
               <ol>
                 <li>Open the Logs tab on the transaction page and find the event named <strong>MessageLeft</strong>.</li>
                 <li>Confirm that the event’s <strong>Address</strong> is the quest contract address shown below.</li>

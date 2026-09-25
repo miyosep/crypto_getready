@@ -80,5 +80,5 @@ Windows PowerShell 使用 `npm.cmd run verify-quest -- --transfer-tx 0x转账哈
 
 - 仅使用 Sepolia 测试网。MetaMask 会逐笔请求用户确认；网站不会替用户签名。
 - 留言一旦上链便公开且无法撤回。合约没有内容审核或删除功能。
-- 页面刷新后不会自动恢复正在等待的交易状态；可从 MetaMask 或 Etherscan 找回交易哈希，核对后再决定是否重发。
+- 页面刷新后不会自动恢复正在等待的交易状态；可从 MetaMask、Etherscan 或 Blockscout 找回交易哈希，核对后再决定是否重发。
 - 连接钱包、读取回执和查询事件依赖浏览器及 Sepolia RPC 的可用性。

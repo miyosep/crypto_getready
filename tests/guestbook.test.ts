@@ -162,4 +162,19 @@ describe("bounded event pagination", () => {
       /ahead/,
     );
   });
+  it("can ask the RPC for messages from one indexed sender", async () => {
+    let senderFilter: Address | undefined;
+    const client = {
+      getChainId: async () => 11155111,
+      getBlockNumber: async () => 3000n,
+      getLogs: async (request: { args?: { sender?: Address } }) => {
+        senderFilter = request.args?.sender;
+        return [];
+      },
+    } as unknown as PublicClient;
+
+    await loadLogPage(client, contract, 3000n, 2000n, undefined, wallet);
+
+    assert.equal(senderFilter, wallet);
+  });
 });

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
+import { explorerBaseUrl } from "@/lib/contract";
 import type { Locale } from "@/lib/i18n";
 
 export function NetworkSettings({ locale = "zh" }: { locale?: Locale }) {
@@ -11,7 +12,7 @@ export function NetworkSettings({ locale = "zh" }: { locale?: Locale }) {
     [en ? "RPC URL" : "RPC 地址", "https://ethereum-sepolia-rpc.publicnode.com"],
     [en ? "Chain ID" : "链 ID", "11155111"],
     [en ? "Currency symbol" : "货币符号", "ETH"],
-    [en ? "Block explorer URL" : "区块浏览器地址", "https://sepolia.etherscan.io"],
+    [en ? "Block explorer URL" : "区块浏览器地址", explorerBaseUrl],
   ];
   const [copied, setCopied] = useState<string>();
   const [failed, setFailed] = useState(false);

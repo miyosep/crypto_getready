@@ -29,6 +29,7 @@ export async function loadLogPage(
   deployment: bigint,
   chunk: bigint,
   cursor?: bigint,
+  sender?: Address,
 ): Promise<LogPage> {
   if ((await client.getChainId()) !== 11155111)
     throw new Error("RPC chain is not Sepolia");
@@ -45,6 +46,7 @@ export async function loadLogPage(
     const logs = await client.getLogs({
       address,
       event: messageEvent,
+      args: sender ? { sender } : undefined,
       ...range,
       strict: true,
     });
