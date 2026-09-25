@@ -398,10 +398,17 @@ p {
 .safety-note strong {
   display: block;
   color: #171315;
-  font-size: 15px;
+  font-family: Impact, "Arial Black", "Microsoft YaHei UI", "SimHei", sans-serif;
+  font-size: 21px;
+  font-style: italic;
   font-weight: 900;
-  letter-spacing: 0.03em;
-  text-shadow: 1px 1px 0 #fff;
+  line-height: 1.25;
+  letter-spacing: 0.055em;
+  transform: skewX(-5deg);
+  transform-origin: left center;
+  -webkit-text-stroke: 0.35px #171315;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0 #fff;
 }
 .safety-note strong::after {
   content: "";
@@ -413,10 +420,40 @@ p {
   transform: skewX(-22deg);
 }
 .safety-note p {
-  font-size: 12px;
-  font-weight: 540;
-  line-height: 1.8;
-  margin: 9px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 2;
+  margin: 12px 0 0;
+}
+.safety-emphasis {
+  display: inline-block;
+  color: #c41430;
+  font-family: Impact, "Arial Black", "Microsoft YaHei UI", "SimHei", sans-serif;
+  font-size: 1.34em;
+  font-style: italic;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.035em;
+  transform: rotate(-2deg) skewX(-4deg);
+  -webkit-text-stroke: 0.3px #9d1026;
+  paint-order: stroke fill;
+  text-shadow: 1px 1px 0 #fff;
+}
+.safety-note-en strong,
+.safety-note-en .safety-emphasis {
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  -webkit-text-stroke: 0;
+}
+.safety-note-en strong {
+  font-size: 19px;
+  line-height: 1.35;
+  transform: skewX(-5deg);
+}
+.safety-note-en .safety-emphasis {
+  font-size: 1.2em;
+  transform: rotate(-1.5deg) skewX(-4deg);
 }
 .term-guide {
   margin-top: 20px;
@@ -1348,7 +1385,10 @@ textarea:disabled {
     font-size: 13px;
   }
   .safety-note p {
-    font-size: 13px;
+    font-size: 15px;
+  }
+  .safety-note strong {
+    font-size: 23px;
   }
   .safety-note {
     margin: 44px 18px 32px;

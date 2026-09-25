@@ -51,10 +51,26 @@ export function QuestGuide({ locale = "zh" }: { locale?: Locale }) {
           </div>
         </li>
       </ol>
-      <div className="safety-note">
+      <div className={`safety-note ${en ? "safety-note-en" : ""}`}>
         <div>
           <strong>{en ? "The most important safety rule" : "最重要的安全规则"}</strong>
-          <p>{en ? "Never give anyone your recovery phrase or private key. This quest will never ask for either." : "任何人索要助记词或私钥，都不要提供；本任务也永远不会向你索取它们。"}</p>
+          <p>
+            {en ? (
+              <>
+                If <span className="safety-emphasis">anyone</span> asks for your
+                recovery phrase or private key,{" "}
+                <span className="safety-emphasis">never give it to them</span>.
+                This quest will never ask for either.
+              </>
+            ) : (
+              <>
+                <span className="safety-emphasis">任何人</span>
+                索要助记词或私钥，
+                <span className="safety-emphasis">都不要提供</span>
+                ；本任务也永远不会向你索取它们。
+              </>
+            )}
+          </p>
         </div>
       </div>
     </aside>
