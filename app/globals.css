@@ -631,6 +631,7 @@ p {
 }
 .wallet-label {
   display: flex;
+  min-width: 0;
   align-items: center;
   gap: 11px;
 }
@@ -650,7 +651,8 @@ p {
   font-weight: 600;
 }
 .wallet-label p {
-  font-size: 11px;
+  font-size: 13px;
+  line-height: 1.6;
   color: var(--muted);
   margin-top: 2px;
 }
@@ -728,6 +730,7 @@ p {
 }
 .label-row {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
@@ -738,7 +741,8 @@ p {
   font-weight: 600;
 }
 .label-row .muted {
-  font-size: 11px;
+  font-size: 13px;
+  line-height: 1.6;
 }
 textarea {
   display: block;
@@ -755,7 +759,7 @@ textarea {
   outline: none;
 }
 textarea::placeholder {
-  color: #a0a0a0;
+  color: var(--muted);
 }
 textarea:focus {
   border-color: #bd4c63;
@@ -772,8 +776,9 @@ textarea:disabled {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  font-size: 11px;
-  color: #909090;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
   margin-top: 8px;
 }
 .textarea-footer > span:last-child {
@@ -786,8 +791,9 @@ textarea:disabled {
   align-items: center;
   flex-wrap: wrap;
   margin: 17px 0 23px;
-  font-size: 11px;
-  color: #898989;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
 }
 .examples > span {
   margin-right: 1px;
@@ -798,7 +804,8 @@ textarea:disabled {
   border-radius: 5px;
   color: #76626a;
   padding: 3px 8px;
-  font-size: 11px;
+  font-size: 13px;
+  line-height: 1.6;
 }
 .examples button:hover:not(:disabled) {
   background: #f9e7ec;
@@ -815,9 +822,10 @@ textarea:disabled {
 }
 .submit-caption {
   text-align: center;
-  font-size: 11px;
+  font-size: 13px;
+  line-height: 1.6;
   margin-top: 10px;
-  color: #909090;
+  color: var(--muted);
 }
 .notice {
   font-size: 13px;
