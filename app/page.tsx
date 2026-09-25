@@ -1,4 +1,4 @@
-import { Hexagon } from "lucide-react";
+import Image from "next/image";
 import { Composer } from "@/components/composer";
 import { QuestGuide } from "@/components/education";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
@@ -25,7 +25,7 @@ export default function Home() {
             <p>PKUBA 2026 秋季招新入门任务，零基础也可以完成：认识钱包、领取测试币，在 Sepolia 上完成第一笔转账和链上留言。</p>
           </div>
           <div className="hero-stamp" aria-hidden="true">
-            <Hexagon size={28} strokeWidth={1.1} />
+            <Image src="/ethereum-logo.svg" alt="" width={28} height={40} style={{ objectFit: "contain", flexShrink: 0 }} unoptimized />
             <span>
               YOUR FIRST
               <br />

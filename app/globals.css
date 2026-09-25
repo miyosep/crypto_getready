@@ -222,6 +222,7 @@ p {
 }
 .hero-stamp {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 16px;
   border-top: 1px solid #e8c6cd;
@@ -232,6 +233,7 @@ p {
   margin-right: 15px;
 }
 .hero-stamp > span {
+  white-space: nowrap;
   font-size: 10px;
   letter-spacing: 1.8px;
   line-height: 1.6;

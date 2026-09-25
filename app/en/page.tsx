@@ -1,4 +1,4 @@
-import { Hexagon } from "lucide-react";
+import Image from "next/image";
 import { Composer } from "@/components/composer";
 import { QuestGuide } from "@/components/education";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
@@ -29,7 +29,7 @@ export default function EnglishHome() {
             </p>
           </div>
           <div className="hero-stamp" aria-hidden="true">
-            <Hexagon size={28} strokeWidth={1.1} />
+            <Image src="/ethereum-logo.svg" alt="" width={28} height={40} style={{ objectFit: "contain", flexShrink: 0 }} unoptimized />
             <span>
               YOUR FIRST
               <br />
