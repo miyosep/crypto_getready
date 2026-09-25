@@ -17,16 +17,13 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Windows PowerShell 请用 `Copy-Item .env.example .env.local` 复制环境变量模板。把 [`deployment/practice-config.json`](deployment/practice-config.json) 中的四项公开配置填入 `.env.local`，然后打开 [http://localhost:3000](http://localhost:3000)。
+Windows PowerShell 请用 `Copy-Item .env.example .env.local` 复制环境变量模板，然后打开 [http://localhost:3000](http://localhost:3000)。公开的任务合约地址、部署区块和 NFT 开关已保存在 [`deployment/practice-config.json`](deployment/practice-config.json)，本地运行时会自动读取，无需复制到 `.env.local`。
 
 | 变量 | 作用 |
 | --- | --- |
-| `NEXT_PUBLIC_GUESTBOOK_CONTRACT_ADDRESS` | Sepolia 任务合约地址 |
-| `NEXT_PUBLIC_DEPLOYMENT_BLOCK` | 合约部署区块，用于限定事件查询与验收范围 |
 | `NEXT_PUBLIC_SEPOLIA_RPC_URL` | 浏览器可访问的 Sepolia RPC |
-| `NEXT_PUBLIC_QUEST_NFT_ENABLED` | 对当前 NFT 合约设为 `true` |
 
-其他可选项见 [`.env.example`](.env.example)。`NEXT_PUBLIC_*` 会写入浏览器构建产物；修改后需重新构建或部署。私钥和 `ETHERSCAN_API_KEY` 不属于网站配置，不要提交到 Git 或上传到 Vercel。
+其他可选项见 [`.env.example`](.env.example)。如需临时测试另一份部署，仍可用同名 `NEXT_PUBLIC_*` 环境变量覆盖公开配置；这些变量会写入浏览器构建产物，并不保密。私钥和 `ETHERSCAN_API_KEY` 不属于网站配置，不要提交到 Git 或上传到 Vercel。
 
 ## 任务如何运作
 

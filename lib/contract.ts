@@ -1,4 +1,5 @@
 import { parseAbi } from "viem";
+import type { Locale } from "./i18n";
 
 export const MAX_MESSAGE_BYTES = 280;
 export const guestbookAbi = parseAbi([
@@ -21,8 +22,16 @@ export const shortAddress = (address: string) =>
 export const transactionUrl = (hash: string) =>
   `https://sepolia.etherscan.io/tx/${hash}`;
 
-export function validateMessage(content: string): string | undefined {
-  if (!content.trim()) return "写点什么吧，让大家认识你。";
+export function validateMessage(
+  content: string,
+  locale: Locale = "zh",
+): string | undefined {
+  if (!content.trim())
+    return locale === "en"
+      ? "Write something so the community can get to know you."
+      : "写点什么吧，让大家认识你。";
   if (byteLength(content) > MAX_MESSAGE_BYTES)
-    return "留言超过了 280 字节，请稍微精简一下。";
+    return locale === "en"
+      ? "Your message is over 280 bytes. Please shorten it."
+      : "留言超过了 280 字节，请稍微精简一下。";
 }

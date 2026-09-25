@@ -1,11 +1,23 @@
 import { parseSettings } from "./settings";
+import practiceConfig from "@/deployment/practice-config.json";
 
-// Enabled only after the NFT-capable contract has been deployed and verified.
-export const nftEnabled = process.env.NEXT_PUBLIC_QUEST_NFT_ENABLED === "true";
+// The practice deployment is public, committed configuration. Environment
+// variables are optional overrides for organizers testing another deployment.
+const contractAddress =
+  process.env.NEXT_PUBLIC_GUESTBOOK_CONTRACT_ADDRESS ||
+  practiceConfig.NEXT_PUBLIC_GUESTBOOK_CONTRACT_ADDRESS;
+const deploymentBlock =
+  process.env.NEXT_PUBLIC_DEPLOYMENT_BLOCK ||
+  practiceConfig.NEXT_PUBLIC_DEPLOYMENT_BLOCK;
+const nftSetting =
+  process.env.NEXT_PUBLIC_QUEST_NFT_ENABLED ||
+  practiceConfig.NEXT_PUBLIC_QUEST_NFT_ENABLED;
+
+export const nftEnabled = nftSetting === "true";
 
 export const settings = parseSettings({
-  address: process.env.NEXT_PUBLIC_GUESTBOOK_CONTRACT_ADDRESS,
-  block: process.env.NEXT_PUBLIC_DEPLOYMENT_BLOCK,
+  address: contractAddress,
+  block: deploymentBlock,
   rpc: process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL,
   chunk: process.env.NEXT_PUBLIC_LOG_CHUNK_SIZE,
 });

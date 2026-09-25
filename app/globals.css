@@ -416,20 +416,90 @@ p {
   font-size: 14px;
   line-height: 1.9;
 }
-.transfer-address {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 18px;
+.contract-address {
+  margin: 18px 0;
 }
-.transfer-address > div { min-width: 0; flex: 1; }
-.transfer-address .muted { display: block; font-size: 12px; margin-bottom: 6px; }
-.transfer-address code { font-size: 14px; overflow-wrap: anywhere; user-select: all; }
-.transfer-copy-status { display: block; min-height: 20px; font-size: 12px; color: var(--brand); }
+.language-switch {
+  min-width: 38px;
+  justify-content: center;
+  padding: 5px 9px;
+  border: 1px solid #e5dadd;
+  border-radius: 6px;
+  color: var(--brand);
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.4px;
+}
+.language-switch:hover {
+  background: var(--soft);
+}
+.contract-address-label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.contract-address-actions {
+  display: flex;
+  align-items: stretch;
+  gap: 9px;
+}
+.contract-address-copy {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid #e5dadd;
+  border-radius: 7px;
+  background: #fdfafa;
+  color: var(--ink);
+  text-align: left;
+}
+.contract-address-copy:hover {
+  border-color: #d6aab4;
+  background: #fcf2f5;
+}
+.contract-address-copy code {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  user-select: all;
+  font-size: 13px;
+}
+.contract-address-copy svg {
+  flex: none;
+  color: var(--brand);
+}
+.contract-explorer-link {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border: 1px solid #eadde1;
+  border-radius: 7px;
+  color: var(--brand);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.contract-explorer-link:hover {
+  background: #fcf2f5;
+}
+.contract-copy-status {
+  display: block;
+  min-height: 20px;
+  margin-top: 4px;
+  color: var(--brand);
+  font-size: 12px;
+}
 @media (max-width: 600px) {
   .transfer-step { padding: 24px 20px 20px; }
   .transfer-step h2 { font-size: 21px; }
-  .transfer-address { align-items: flex-start; flex-direction: column; gap: 10px; }
+  .contract-address-actions { align-items: stretch; flex-direction: column; }
+  .contract-explorer-link { width: 100%; }
 }
 .section-kicker {
   font-size: 10px;
@@ -1403,6 +1473,82 @@ textarea:disabled {
   font-weight: 600;
   margin: 28px 0 12px;
 }
+.wallet-explainer {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 24px 0 30px;
+}
+.wallet-explainer > div {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 18px;
+  background: #fdfbfb;
+}
+.wallet-explainer span {
+  color: var(--brand);
+  font: 11px monospace;
+}
+.wallet-explainer h3 {
+  font-size: 16px;
+  margin: 9px 0 7px;
+}
+.wallet-explainer p {
+  font-size: 14px;
+  line-height: 1.75;
+  margin: 0;
+}
+.concept-table {
+  border-top: 1px solid var(--line);
+  margin: 24px 0;
+}
+.concept-table dl {
+  margin: 0;
+}
+.concept-table dl > div {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 20px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--line);
+}
+.concept-table dt {
+  font-weight: 650;
+  color: #342b30;
+}
+.concept-table dd {
+  margin: 0;
+  color: #5f595e;
+}
+.guide-callout,
+.guide-checkpoint {
+  margin: 24px 0;
+  padding: 16px 18px;
+  border-left: 3px solid var(--brand);
+  background: #fcf5f7;
+  color: #5f595e;
+  font-size: 15px;
+  line-height: 1.85;
+}
+.guide-callout-danger {
+  background: #fff7f2;
+  border-left-color: #a9502f;
+}
+.guide-checkpoint {
+  background: #f7faf7;
+  border-left-color: #628266;
+}
+.guide-checkpoint p {
+  margin: 7px 0 0;
+}
+.guide-checkpoint ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+.guide-checkpoint li {
+  font-size: 14px;
+  margin: 3px 0;
+}
 .guide-article p,
 .guide-article li {
   font-size: 16px;
@@ -1448,6 +1594,18 @@ textarea:disabled {
 .guide-article .guide-reference {
   font-size: 13px;
   color: var(--muted);
+}
+.guide-image {
+  display: flex;
+  justify-content: center;
+  margin: 18px 0 8px;
+}
+.guide-image img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 9px;
 }
 .network-settings {
   margin: 23px 0;
@@ -1576,6 +1734,13 @@ textarea:disabled {
   }
   .guide-article section {
     padding: 30px 0;
+  }
+  .wallet-explainer {
+    grid-template-columns: 1fr;
+  }
+  .concept-table dl > div {
+    grid-template-columns: 1fr;
+    gap: 4px;
   }
   .network-field {
     gap: 10px;
