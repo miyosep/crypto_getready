@@ -27,7 +27,7 @@ The transfer edition accepts plain ETH transfers and emits `TransferReceived`.
 Only the deploying account can call `withdraw()` to send the entire ETH balance
 back to itself. This authority cannot be transferred. It does not control NFTs.
 Transfers do not mint NFTs or gate messages. The guide asks participants to send
-0.001 Sepolia ETH before leaving a message and save both transaction hashes.
+0.02333 Sepolia ETH before leaving a message and save both transaction hashes.
 
 After source verification, the deploying wallet can recover test ETH through
 Sepolia Etherscan → Contract → Write Contract → Connect to Web3 → `withdraw`.
@@ -62,7 +62,7 @@ ERC-721 ownership, metadata, and matching the website artwork.
 
 `npm run verify-quest -- --transfer-tx 0x... --message-tx 0x...` requires two
 successful Sepolia transactions after deployment: an empty-calldata transfer of
-exactly 0.001 ETH to the configured contract with a matching TransferReceived event,
+exactly 0.02333 ETH to the configured contract with a matching TransferReceived event,
 followed by a MessageLeft event from that contract whose author matches the transfer
 sender. Same-block order uses transaction indices. Delegated message calls remain
 supported: their outer To/From may differ from the contract/event author. Both hashes

@@ -6,6 +6,7 @@ import { GuideImage } from "@/components/guide-image";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { NetworkSettings } from "@/components/network-settings";
 import { faucets, settings, nftEnabled } from "@/lib/config";
+import { QUEST_TRANSFER_AMOUNT_LABEL } from "@/lib/quest";
 
 export const metadata: Metadata = {
   title: "Guide · PKUBA Get Ready",
@@ -114,7 +115,7 @@ export default function GuidePage() {
                   </div>
                   <div>
                     <dt><strong>助记词（Secret Recovery Phrase）</strong></dt>
-                    <dd>通常能恢复整个钱包，比普通密码更重要。丢失后平台无法帮你找回。</dd>
+                    <dd>是恢复钱包的唯一方式，比普通密码更重要。丢失后平台无法帮你找回。</dd>
                   </div>
                   <div>
                     <dt><strong>钱包密码（Wallet Password）</strong></dt>
@@ -168,7 +169,7 @@ export default function GuidePage() {
                   选择<strong>“创建新钱包”</strong>，按照提示创建新钱包并设置解锁密码。
                 </li>
                 <li>
-                  钱包会显示助记词。确认周围无人、没有录屏或共享屏幕后，按顺序抄写在纸上并完成验证。不要截图、上传网盘或发到聊天软件。助记词是进入钱包的唯一钥匙，任何其他人拿到助记词就可以进入钱包并完成转账等所有操作。
+                  钱包会显示助记词。确认周围无人、没有录屏或共享屏幕后，按顺序抄写在纸上并完成验证。任何其他人拿到助记词，都可以进入钱包并完成转账等所有操作。
                 </li>
                 <li>
                   进入账户页面，找到以 <code>0x</code> 开头的以太坊
@@ -179,10 +180,42 @@ export default function GuidePage() {
                   />
                 </li>
               </ol>
+              <div className="guide-callout guide-callout-danger guide-seed-safety">
+                <strong>助记词是你钱包的唯一恢复方式。</strong>
+                <ul>
+                  <li>
+                    请<strong>妥善保存</strong>到一个<strong>绝对安全的地方</strong>：
+                    <ul>
+                      <li>不要以明文形式存放在文件中；</li>
+                      <li>不要在任何通讯介质中发送助记词；</li>
+                      <li>不要分享给任何人。</li>
+                    </ul>
+                  </li>
+                  <li>可以写在物理介质上，并放在安全且不会丢失的地方。</li>
+                </ul>
+                <p>
+                  更多链上安全实践，请参考{" "}
+                  <a
+                    href="https://github.com/slowmist/Blockchain-dark-forest-selfguard-handbook"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <strong>SlowMist Blackbook ↗</strong>
+                  </a>
+                  。
+                </p>
+              </div>
               <p>
                 钱包地址是可以公开的账户标识：通常为 <code>0x</code> 加 40
                 个十六进制字符，共 42 位。页面上的 <code>0x1234…abcd</code>{" "}
                 只是缩写，领取测试币或提交任务时要复制完整地址。
+              </p>
+              <h3>什么是 EVM 地址？</h3>
+              <p>
+                <strong>EVM 地址（EVM Address）</strong>是以太坊以及兼容
+                <strong>以太坊虚拟机（Ethereum Virtual Machine）</strong>的网络所使用的账户地址格式。
+                Ethereum、Sepolia、Base 和 Arbitrum 等网络通常可以使用同一个以 <code>0x</code> 开头的地址，
+                但每个网络上的资产和交易记录彼此独立。转账或连接应用前，除了核对地址，也必须核对当前网络。
               </p>
               <h3>助记词、私钥和地址有什么区别？</h3>
               <p>
@@ -324,19 +357,24 @@ export default function GuidePage() {
               </p>
               <ol>
                 <li>确认网络为 <strong>Sepolia</strong>，点击<strong>“发送”</strong>，粘贴上面的完整合约地址。</li>
-                <li>选择 <strong>SepoliaETH</strong>，填写 <strong>0.001 ETH</strong>。留一些 Sepolia 测试币，用于这笔转账和后续留言的手续费。</li>
+                <li>选择 <strong>SepoliaETH</strong>，填写 <strong>{QUEST_TRANSFER_AMOUNT_LABEL}</strong>。留一些 Sepolia 测试币，用于这笔转账和后续留言的手续费。</li>
                 <li>核对网络、收款地址和金额，确认发送。</li>
                 <li>等待交易成功，在交易详情中打开 Etherscan；如果无法访问，就使用 Blockscout 备用入口。保存完整交易哈希后，继续下面的留言步骤。</li>
               </ol>
               <div className="guide-checkpoint">
                 <strong>签名前再核对一次</strong>
-                <p>网络是 Sepolia；收款地址与本页完全一致；金额是 0.001 ETH；钱包仍留有支付手续费的余额。</p>
+                <p>网络是 Sepolia；收款地址与本页完全一致；金额是 {QUEST_TRANSFER_AMOUNT_LABEL}；钱包仍留有支付手续费的余额。</p>
               </div>
             </section>
 
             <section id="message">
               <div className="chapter-label">05 / FIRST INTERACTION</div>
               <h2>连接钱包，提交一条留言</h2>
+              <p>
+                <strong>去中心化应用（Decentralized Application, DApp）</strong>是通过网页等界面连接钱包和智能合约的应用。
+                这个任务页面就是一个简单的 DApp：连接钱包后，页面可以读取你的公开地址；当你提交留言时，
+                钱包会要求你亲自检查并签名，网页本身不能代替你签名。
+              </p>
               <p>
                 回到
                 <Link href="/" target="_blank" rel="noreferrer">

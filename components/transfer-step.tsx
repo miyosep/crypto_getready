@@ -2,6 +2,7 @@
 
 import { settings } from "@/lib/config";
 import type { Locale } from "@/lib/i18n";
+import { QUEST_TRANSFER_AMOUNT_LABEL } from "@/lib/quest";
 import { ContractAddress } from "./contract-address";
 
 export function TransferStep({ locale = "zh" }: { locale?: Locale }) {
@@ -14,7 +15,7 @@ export function TransferStep({ locale = "zh" }: { locale?: Locale }) {
         {en ? "In MetaMask, switch to " : "在 MetaMask 中切换到 "}
         <strong>{en ? "Sepolia Testnet" : "Sepolia 测试网"}</strong>
         {en ? ", click Send, and send " : "，点击“发送”，向下面的地址发送 "}
-        <strong>0.001 ETH</strong>{en ? " to the address below." : "。"}
+        <strong>{QUEST_TRANSFER_AMOUNT_LABEL}</strong>{en ? " to the address below." : "。"}
       </p>
       {settings.address ? (
         <ContractAddress address={settings.address} label={en ? "Receiving contract address" : "收款合约地址"} locale={locale} />

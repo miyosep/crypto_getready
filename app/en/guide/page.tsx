@@ -6,6 +6,7 @@ import { GuideImage } from "@/components/guide-image";
 import { NetworkSettings } from "@/components/network-settings";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { faucets, nftEnabled, settings } from "@/lib/config";
+import { QUEST_TRANSFER_AMOUNT_LABEL } from "@/lib/quest";
 
 export const metadata: Metadata = {
   title: "Beginner Guide · PKUBA Get Ready",
@@ -108,7 +109,7 @@ export default function EnglishGuidePage() {
                   </div>
                   <div>
                     <dt><strong>Secret recovery phrase</strong></dt>
-                    <dd>Usually restores the entire wallet and is more important than an ordinary password. No platform can recover it for you.</dd>
+                    <dd>The only way to recover your wallet. It is more important than an ordinary password, and no platform can recover it for you.</dd>
                   </div>
                   <div>
                     <dt><strong>Wallet password</strong></dt>
@@ -138,15 +139,44 @@ export default function EnglishGuidePage() {
                 </li>
                 <li>Select <strong>“Create a new wallet”</strong>, follow the prompts, and set a password that unlocks the extension on this device.</li>
                 <li>
-                  MetaMask will show a secret recovery phrase. Make sure nobody can see your screen and that you are not recording or sharing it. Write the words on paper in order and complete the verification. Do not take a screenshot, upload it, or send it in a chat. Anyone with this phrase can enter the wallet and perform transfers or any other action.
+                  MetaMask will show a secret recovery phrase. Make sure nobody can see your screen and that you are not recording or sharing it. Write the words down in order and complete the verification. Anyone with this phrase can enter the wallet and perform transfers or any other action.
                 </li>
                 <li>
                   Open the account page and find the Ethereum address beginning with <code>0x</code>.
                   <GuideImage filename="以太坊地址.png" alt="Find an Ethereum address beginning with 0x in MetaMask" />
                 </li>
               </ol>
+              <div className="guide-callout guide-callout-danger guide-seed-safety">
+                <strong>Your recovery phrase is the only way to recover your wallet.</strong>
+                <ul>
+                  <li>
+                    Keep it <strong>properly secured</strong> in an <strong>absolutely safe place</strong>:
+                    <ul>
+                      <li>Do not store it as plain text in a file.</li>
+                      <li>Do not send it through any communication channel.</li>
+                      <li>Do not share it with anyone.</li>
+                    </ul>
+                  </li>
+                  <li>You may write it on a physical medium and keep it somewhere secure where it will not be lost.</li>
+                </ul>
+                <p>
+                  For more onchain security practices, read the{" "}
+                  <a
+                    href="https://github.com/slowmist/Blockchain-dark-forest-selfguard-handbook"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <strong>SlowMist Blackbook ↗</strong>
+                  </a>
+                  .
+                </p>
+              </div>
               <p>
                 A wallet address is a public account identifier, normally <code>0x</code> followed by 40 hexadecimal characters, for 42 characters total. A display such as <code>0x1234…abcd</code> is only an abbreviation; copy the complete address when getting test ETH or submitting the quest.
+              </p>
+              <h3>What is an EVM address?</h3>
+              <p>
+                An <strong>EVM address</strong> is the account-address format used by Ethereum and networks compatible with the <strong>Ethereum Virtual Machine</strong>. Networks such as Ethereum, Sepolia, Base, and Arbitrum can usually use the same address beginning with <code>0x</code>, but balances and transaction histories remain separate on each network. Before transferring assets or connecting to an app, check both the address and the selected network.
               </p>
               <h3>What is the difference between the address, private key, and recovery phrase?</h3>
               <p>Your address can be shared to receive test ETH and look up transactions. The recovery phrase and private key control the account and must never be shared. The wallet password only unlocks the wallet on your current device.</p>
@@ -223,19 +253,22 @@ export default function EnglishGuidePage() {
               </p>
               <ol>
                 <li>Confirm the network is <strong>Sepolia</strong>, select <strong>“Send”</strong>, and paste the complete contract address above.</li>
-                <li>Select <strong>SepoliaETH</strong> and enter <strong>0.001 ETH</strong>. Keep some Sepolia test ETH for this transfer’s fee and the later message transaction.</li>
+                <li>Select <strong>SepoliaETH</strong> and enter <strong>{QUEST_TRANSFER_AMOUNT_LABEL}</strong>. Keep some Sepolia test ETH for this transfer’s fee and the later message transaction.</li>
                 <li>Check the network, recipient address, and amount, then confirm the transfer.</li>
                 <li>Wait for success and open the transaction in Etherscan. If it is unreachable, use the Blockscout backup. Save the complete transaction hash before continuing.</li>
               </ol>
               <div className="guide-checkpoint">
                 <strong>Check once more before signing</strong>
-                <p>The network is Sepolia; the recipient exactly matches this page; the amount is 0.001 ETH; and the wallet retains enough ETH for gas.</p>
+                <p>The network is Sepolia; the recipient exactly matches this page; the amount is {QUEST_TRANSFER_AMOUNT_LABEL}; and the wallet retains enough ETH for gas.</p>
               </div>
             </section>
 
             <section id="message">
               <div className="chapter-label">05 / FIRST INTERACTION</div>
               <h2>Connect your wallet and submit a message</h2>
+              <p>
+                A <strong>decentralized application (DApp)</strong> connects a wallet and smart contracts through an interface such as a website. This quest page is a simple DApp: after you connect, it can read your public address; when you submit a message, your wallet asks you to review and sign it yourself. The website cannot sign on your behalf.
+              </p>
               <p>Return to the <Link href="/en" target="_blank" rel="noreferrer">quest page ↗</Link>. You will complete this step directly on the activity website.</p>
               <ol>
                 <li>Select <strong>“Connect wallet”</strong>. When MetaMask opens, check the website domain, choose the test account you are using, and approve the connection.</li>

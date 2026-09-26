@@ -66,11 +66,11 @@ contract PKUBAGetReadyTest is Test {
     function testPlainTransferReceivesEthWithoutMinting() public {
         vm.deal(student, 1 ether);
         vm.expectEmit(true, false, false, true, address(quest));
-        emit PKUBAGetReady.TransferReceived(student, 0.001 ether);
+        emit PKUBAGetReady.TransferReceived(student, 0.02333 ether);
         vm.prank(student);
-        (bool ok,) = address(quest).call{value: 0.001 ether}("");
+        (bool ok,) = address(quest).call{value: 0.02333 ether}("");
         assertTrue(ok);
-        assertEq(address(quest).balance, 0.001 ether);
+        assertEq(address(quest).balance, 0.02333 ether);
         assertEq(quest.totalMinted(), 0);
         assertEq(quest.tokenOf(student), 0);
         vm.prank(student);
@@ -81,7 +81,7 @@ contract PKUBAGetReadyTest is Test {
     function testUnknownCalldataStillRejected() public {
         vm.deal(student, 1 ether);
         vm.prank(student);
-        (bool ok,) = address(quest).call{value: 0.001 ether}(hex"deadbeef");
+        (bool ok,) = address(quest).call{value: 0.02333 ether}(hex"deadbeef");
         assertFalse(ok);
         assertEq(address(quest).balance, 0);
     }
@@ -112,10 +112,10 @@ contract PKUBAGetReadyTest is Test {
     function testWithdrawalFailureKeepsFunds() public {
         RejectingDeployer receiver = new RejectingDeployer();
         PKUBAGetReady other = receiver.quest();
-        vm.deal(address(other), 0.001 ether);
+        vm.deal(address(other), 0.02333 ether);
         vm.expectRevert(PKUBAGetReady.WithdrawalFailed.selector);
         receiver.withdraw();
-        assertEq(address(other).balance, 0.001 ether);
+        assertEq(address(other).balance, 0.02333 ether);
     }
 }
 

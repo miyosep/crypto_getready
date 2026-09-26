@@ -6,7 +6,6 @@ import {
   createPublicClient,
   createWalletClient,
   http,
-  parseEther,
   type Abi,
   type Hex,
 } from "viem";
@@ -14,6 +13,8 @@ import { sepolia } from "viem/chains";
 import { guestbookAbi } from "../lib/contract";
 import { loadLogPage } from "../lib/logs";
 import { verifyReceipt } from "../lib/receipts";
+import { QUEST_TRANSFER_AMOUNT } from "../lib/quest-verification";
+import { QUEST_TRANSFER_AMOUNT_ETH } from "../lib/quest";
 
 // Local, disposable chain. Uses Anvil's unlocked accounts, never a real private key.
 let anvil: ReturnType<typeof spawn> | undefined;
@@ -120,7 +121,7 @@ async function main() {
     });
     assert.ok(deployed.contractAddress);
     const address = deployed.contractAddress;
-    const transferHash = await wallet.sendTransaction({ account, to: address, value: parseEther("0.001") });
+    const transferHash = await wallet.sendTransaction({ account, to: address, value: QUEST_TRANSFER_AMOUNT });
     await client.waitForTransactionReceipt({ hash: transferHash });
     const content = "你好 PKUBA! 我想学习 ZK。";
     const { request } = await client.simulateContract({
@@ -175,7 +176,7 @@ async function main() {
     const wrongRecipient = await wallet.sendTransaction({
       account,
       to: secondAccount,
-      value: parseEther("0.001"),
+      value: QUEST_TRANSFER_AMOUNT,
     });
     await client.waitForTransactionReceipt({ hash: wrongRecipient });
     const transfer = await runVerifier(address, hash, wrongRecipient);
@@ -185,13 +186,13 @@ async function main() {
     await client.waitForTransactionReceipt({ hash: wrongAmount });
     const amountResult = await runVerifier(address, hash, wrongAmount);
     assert.equal(amountResult.code, 1);
-    assert.match(amountResult.output, /exactly 0.001/);
+    assert.match(amountResult.output, new RegExp(`exactly ${QUEST_TRANSFER_AMOUNT_ETH.replace(".", "\\.")}`));
     const otherMessage = await wallet.writeContract({ account: secondAccount, address, abi: guestbookAbi, functionName: "leaveMessage", args: ["Different author"] });
     await client.waitForTransactionReceipt({ hash: otherMessage });
     const mismatched = await runVerifier(address, otherMessage, transferHash);
     assert.equal(mismatched.code, 1);
     assert.match(mismatched.output, /MessageLeft/);
-    const lateTransfer = await wallet.sendTransaction({ account, to: address, value: parseEther("0.001") });
+    const lateTransfer = await wallet.sendTransaction({ account, to: address, value: QUEST_TRANSFER_AMOUNT });
     await client.waitForTransactionReceipt({ hash: lateTransfer });
     const late = await runVerifier(address, hash, lateTransfer);
     assert.equal(late.code, 1);

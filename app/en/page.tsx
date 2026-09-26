@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Composer } from "@/components/composer";
 import { QuestGuide } from "@/components/education";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { HeroTitle } from "@/components/hero-title";
 
 export default function EnglishHome() {
   return (
@@ -17,11 +18,7 @@ export default function EnglishHome() {
               <span className="hero-department">PKUBA Tech</span>
               <span className="hero-edition">Fall 2026 / Get Ready Quest</span>
             </p>
-            <h1>
-              Start here,
-              <br />
-              Build on Ethereum<span className="hero-period" />
-            </h1>
+            <HeroTitle />
             <p>
               PKUBA Fall 2026 beginner quest. No prior experience required:
               learn what a wallet is, get test ETH, make your first Sepolia

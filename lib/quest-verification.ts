@@ -1,8 +1,9 @@
 import { decodeEventLog, isAddressEqual, parseEther, type Address, type Transaction, type TransactionReceipt } from "viem";
 import { guestbookAbi } from "./contract";
 import { verifyReceipt } from "./receipts";
+import { QUEST_TRANSFER_AMOUNT_ETH } from "./quest";
 
-export const QUEST_TRANSFER_AMOUNT = parseEther("0.001");
+export const QUEST_TRANSFER_AMOUNT = parseEther(QUEST_TRANSFER_AMOUNT_ETH);
 
 export function verifyQuestPair(
   contract: Address,
@@ -29,7 +30,7 @@ export function verifyQuestPair(
   if (!transfer.to || !isAddressEqual(transfer.to, contract) || transfer.input !== "0x")
     throw new Error("Transfer must send ETH directly to the configured contract with empty calldata.");
   if (transfer.value !== QUEST_TRANSFER_AMOUNT)
-    throw new Error("Transfer amount must be exactly 0.001 Sepolia ETH.");
+    throw new Error(`Transfer amount must be exactly ${QUEST_TRANSFER_AMOUNT_ETH} Sepolia ETH.`);
   const received = transferReceipt.logs.some((log) => {
     if (!isAddressEqual(log.address, contract)) return false;
     try {

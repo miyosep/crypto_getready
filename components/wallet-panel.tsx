@@ -15,6 +15,7 @@ import { Check, LoaderCircle, Wallet } from "lucide-react";
 import { shortAddress } from "@/lib/contract";
 import { friendlyError } from "@/lib/errors";
 import type { Locale } from "@/lib/i18n";
+import { QUEST_TRANSFER_AMOUNT_ETH } from "@/lib/quest";
 import { findMetaMaskConnector } from "@/lib/wallet-discovery";
 
 export function WalletPanel({
@@ -40,7 +41,9 @@ export function WalletPanel({
   const [connectionError, setConnectionError] = useState<string>();
   const connecting = useRef(false);
   const wrongNetwork = isConnected && chainId !== sepolia.id;
-  const lowBalance = balance.data && balance.data.value < parseEther("0.0001");
+  const lowBalance =
+    balance.data &&
+    balance.data.value < parseEther(QUEST_TRANSFER_AMOUNT_ETH);
   async function connectWallet() {
     if (connecting.current) return;
     connecting.current = true;
@@ -193,8 +196,8 @@ export function WalletPanel({
       {isConnected && lowBalance && (
         <p className="notice">
           {en
-            ? "Your test ETH balance is low. You need a small amount of Sepolia ETH to pay the transaction fee (gas); the estimated cost is checked before submission."
-            : "你的测试币余额较少。需要少量 Sepolia ETH 支付交易手续费（Gas）；实际费用会在提交前估算。"}
+            ? `Your balance is below the required ${QUEST_TRANSFER_AMOUNT_ETH} Sepolia ETH transfer amount. You will also need a little extra for gas.`
+            : `你的余额不足任务要求的 ${QUEST_TRANSFER_AMOUNT_ETH} Sepolia ETH 转账金额，另外还需要留少量测试币支付手续费（Gas）。`}
         </p>
       )}
     </div>

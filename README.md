@@ -1,6 +1,6 @@
 # PKUBA Get Ready Quest
 
-北京大学区块链协会技术部的 Sepolia 入门任务。参与者用 MetaMask 向任务合约发送 **0.001 Sepolia ETH**，再从同一地址提交一条链上留言，最后提供两笔交易的完整哈希。首次成功留言会在同一笔交易中铸造一枚 Get Ready 纪念 NFT。
+北京大学区块链协会技术部的 Sepolia 入门任务。参与者用 MetaMask 向任务合约发送 **0.02333 Sepolia ETH**，再从同一地址提交一条链上留言，最后提供两笔交易的完整哈希。首次成功留言会在同一笔交易中铸造一枚 Get Ready 纪念 NFT。
 
 - 活动网站：[crypto-getready.vercel.app](https://crypto-getready.vercel.app/)
 - 参与者指南：[网站内的入门指南](https://crypto-getready.vercel.app/guide)
@@ -27,7 +27,7 @@ Windows PowerShell 请用 `Copy-Item .env.example .env.local` 复制环境变量
 
 ## 任务如何运作
 
-1. 参与者在 Sepolia 上向网站显示的合约地址直接转账 **0.001 ETH**，保存转账哈希。
+1. 参与者在 Sepolia 上向网站显示的合约地址直接转账 **0.02333 ETH**，保存转账哈希。
 2. 使用同一地址连接 MetaMask，提交不超过 **280 UTF-8 字节**的留言，保存留言哈希。两步都需要链上确认。
 3. 合约发出 `TransferReceived` 和 `MessageLeft` 事件。一个地址的首次有效留言还会铸造一枚 ERC-721；后续留言仍可提交，但不会重复铸造。
 4. 组织者用两个交易哈希运行验收脚本，并在活动渠道核对参与者身份与重复提交情况。
@@ -66,7 +66,7 @@ npm run verify-quest -- --transfer-tx 0x转账哈希 --message-tx 0x留言哈希
 
 Windows PowerShell 使用 `npm.cmd run verify-quest -- --transfer-tx 0x转账哈希 --message-tx 0x留言哈希`。
 
-脚本要求两笔不同且成功的 Sepolia 交易，均发生在合约部署之后。转账必须以空 calldata 向配置的合约直接发送恰好 `0.001 ETH`，并产生匹配的 `TransferReceived` 事件。留言交易必须发生在转账之后，且该合约发出的 `MessageLeft` 作者必须与转账发送者相同。脚本成功时退出码为 `0`，失败时为 `1`。
+脚本要求两笔不同且成功的 Sepolia 交易，均发生在合约部署之后。转账必须以空 calldata 向配置的合约直接发送恰好 `0.02333 ETH`，并产生匹配的 `TransferReceived` 事件。留言交易必须发生在转账之后，且该合约发出的 `MessageLeft` 作者必须与转账发送者相同。脚本成功时退出码为 `0`，失败时为 `1`。
 
 脚本不能证明钱包属于哪位参与者，也不会记录已使用的哈希。组织者应在活动渠道核对身份，并分别对转账哈希与留言哈希去重。不要要求参与者在公开留言中填写姓名、学号或联系方式。
 

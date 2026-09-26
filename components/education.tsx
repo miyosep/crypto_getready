@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { Locale } from "@/lib/i18n";
+import { QUEST_TRANSFER_AMOUNT_LABEL } from "@/lib/quest";
 
 export function QuestGuide({ locale = "zh" }: { locale?: Locale }) {
   const en = locale === "en";
@@ -40,7 +41,7 @@ export function QuestGuide({ locale = "zh" }: { locale?: Locale }) {
           <span className="step-number">3</span>
           <div>
             <h3>{en ? "Send a test transaction" : "发送一笔测试币"}</h3>
-            <p>{en ? <>Check the network, recipient, and amount; send <strong>0.001 ETH</strong> and save the <strong>transaction hash</strong>.</> : <>核对网络、收款地址和金额，发送 <strong>0.001 ETH</strong>，并保存<strong>交易哈希（Transaction Hash）</strong>。</>}</p>
+            <p>{en ? <>Check the network, recipient, and amount; send <strong>{QUEST_TRANSFER_AMOUNT_LABEL}</strong> and save the <strong>transaction hash</strong>.</> : <>核对网络、收款地址和金额，发送 <strong>{QUEST_TRANSFER_AMOUNT_LABEL}</strong>，并保存<strong>交易哈希（Transaction Hash）</strong>。</>}</p>
           </div>
         </li>
         <li>

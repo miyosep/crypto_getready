@@ -42,6 +42,7 @@ it("rejects failed, spoofed, malformed and missing receipt evidence", () => {
 });
 
 it("enforces network, deployment, amount, calldata and transaction order", () => {
+  assert.equal(QUEST_TRANSFER_AMOUNT, 23_330_000_000_000_000n);
   for (const tx of [{ ...transfer, chainId: 1 }, { ...transfer, value: 1n }, { ...transfer, to: other }, { ...transfer, input: "0x1234" }])
     assert.throws(() => verifyQuestPair(contract, 1n, tx as Transaction, transferReceipt, message, messageReceipt));
   assert.throws(() => verifyQuestPair(contract, 11n, transfer, transferReceipt, message, messageReceipt), /predates/);

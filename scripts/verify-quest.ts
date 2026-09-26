@@ -4,6 +4,7 @@ import { sepolia } from "viem/chains";
 import { parseArgs } from "node:util";
 import { parseSettings } from "../lib/settings";
 import { verifyQuestPair } from "../lib/quest-verification";
+import { QUEST_TRANSFER_AMOUNT_ETH } from "../lib/quest";
 
 // Existing shell environment wins; .env.local takes precedence over .env.
 config({ path: [".env.local", ".env"], quiet: true });
@@ -51,7 +52,7 @@ async function main() {
   ]);
   const author = verifyQuestPair(settings.address, settings.deploymentBlock,
     transfer.transaction, transfer.receipt, message.transaction, message.receipt);
-  console.log("✓ Transfer: exactly 0.001 Sepolia ETH received by the configured contract");
+  console.log(`✓ Transfer: exactly ${QUEST_TRANSFER_AMOUNT_ETH} Sepolia ETH received by the configured contract`);
   console.log("✓ Message: configured contract event matches the transfer sender (direct or delegated call)");
   console.log("✓ Transfer confirmed before message; both receipts succeeded");
   console.log(`Author: ${author.sender}`);
